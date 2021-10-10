@@ -14,8 +14,11 @@ Access Azure Cloud Shell and Connect to AKS
 
 
 ```sh
-master#>ping node1.example.local 
-master#>ping node2.example.local 
+User@Azure#>az account set --subscription $(az account list | grep id | awk '{print $2}'  | sed 's/"//g' | sed 's/,//g')
+User@Azure#>az aks get-credentials --resource-group aks_rg --name aks_lab
+User@Azure#>kubectl get nodes 
+User@Azure#>kubectl get nodes -o wide
+User@Azure#>kubectl top nodes
 ```
 
 # Step 2 
