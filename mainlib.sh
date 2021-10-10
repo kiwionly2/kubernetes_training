@@ -80,7 +80,14 @@ az deployment group create -g ${VMNAME}_rg -f ./${VMNAME}/${VMNAME}_template.jso
 echo "Deployment of Azure Kubernetes Service ....PASS"
 echo 
 echo "Standby for Vital INFO...."
+DNS=$(az aks show --resource-group aks_rg --name aks_lab --query addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName -o table | grep \\. ) 
 sleep 5 
+
+echo "AKS Cluster Name: aks_lab"
+echo "AKS Resource Group Name: aks_rg"
+echo "AKS DNN for ingress: $DNS"
+echo "Please keep this info for futire reference"
+
 
 }
 
