@@ -28,12 +28,43 @@ User@Azure#> kubectl top nodes
 # Step 2 
 
 Open a SSH connection to worker node
- - replace node_name with your worker node name 
+ - replace node_name with your first worker node name 
 ```sh
 User@Azure#> kubectl get nodes 
 
 User@Azure#> kubectl debug node/<node_name> -it --image=mcr.microsoft.com/aks/fundamental/base-ubuntu:v0.0.11
- 
+
+root@aks-agentpool-25073747-0:/# chroot /host
+
+# crictl ps
+
+# crictl images ls 
+
+# systemctl status kubelet
+
+# systemctl status containerd
+
+# crictl ps | grep kube-proxy
+
+# cat /etc/*rel*
+
+# uname -a
+
+# lscpu 
+
+# free -h 
+
+# exit
+
+root@aks-agentpool-25073747-0:/# exit
+
+User@Azure#> kubectl get pods --field-selector status.phase!=Running 
+NAME                                           READY   STATUS      RESTARTS   AGE
+node-debugger-XXX                              0/1     Completed   0          13m
+
+User@Azure#> kubectl pod delete node-debugger-XXX
+
+
 ```
 
 # Step 3 
