@@ -14,20 +14,26 @@ Access Azure Cloud Shell and Connect to AKS
 
 
 ```sh
-User@Azure#>az account set --subscription $(az account list | grep id | awk '{print $2}'  | sed 's/"//g' | sed 's/,//g')
-User@Azure#>az aks get-credentials --resource-group aks_rg --name aks_lab
-User@Azure#>kubectl get nodes 
-User@Azure#>kubectl get nodes -o wide
-User@Azure#>kubectl top nodes
+User@Azure#> az account set --subscription $(az account list | grep id | awk '{print $2}'  | sed 's/"//g' | sed 's/,//g')
+
+User@Azure#> az aks get-credentials --resource-group aks_rg --name aks_lab
+
+User@Azure#> kubectl get nodes 
+
+User@Azure#> kubectl get nodes -o wide
+
+User@Azure#> kubectl top nodes
 ```
 
 # Step 2 
 
-Make sure /etc/hosts on all 3 nodes have hostname information 
+Open a SSH connection to worker node
+ - replace node_name with your worker node name 
 ```sh
-master#> cat /etc/hosts 
-node1#> cat /etc/hosts 
-node2#> cat /etc/hosts 
+User@Azure#> kubectl get nodes 
+
+User@Azure#> kubectl debug node/<node_name> -it --image=mcr.microsoft.com/aks/fundamental/base-ubuntu:v0.0.11
+ 
 ```
 
 # Step 3 
