@@ -1,24 +1,18 @@
-#  Verify your System for Kubernetes
+#  Explore Kubernetes Cluster 
 
-Install Kubernetes in your Linux Machines(s)
-
-You have 3 Machines  : 
-- vm002 as master.example.local
-- vm003 as node1.example.local
-- vm004 as node2.example.local 
-
-The lab for Kubernetes will be using 1 master with 2 worker node ( NOT for Production use )
-
-You can only SSH to master node
-
-node1 and node2 is not exposed to internet
-
-To get Terminal/Shell access to node1 and node2 , connect to master , from master you can ssh to node{1,2}.example.local 
 
 Verify your System for Kubernetes
 # Step 1 
 
-Make sure master node can contact node1 and node2 
+Access Azure Cloud Shell and Connect to AKS
+
+- Initiate Azure Cloud Shell ( you may be asked to create storage account when you run Azure Cloud Shell for First time, accept the default)
+
+- Select Bash if prompted 
+
+![picture 1](../../images/1ccba30eda4a59d6473e7ccd94e63f0901c6aed775e74445fcc3910aa23f7955.png)  
+
+
 ```sh
 master#>ping node1.example.local 
 master#>ping node2.example.local 
