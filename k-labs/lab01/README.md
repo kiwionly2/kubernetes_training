@@ -1,7 +1,7 @@
 #  Explore Kubernetes Cluster 
 
 
-Verify your System for Kubernetes
+Explore and Verify Kubernetes ( AKS )
 # Step 1 
 
 Access Azure Cloud Shell and Connect to AKS
@@ -22,7 +22,8 @@ User@Azure#> kubectl get nodes
 
 User@Azure#> kubectl get nodes -o wide
 
-User@Azure#> kubectl top nodes
+User@Azure#> kubectl describe node <node_name>
+
 ```
 
 # Step 2 
@@ -69,11 +70,33 @@ User@Azure#> kubectl pod delete node-debugger-XXX
 
 # Step 3 
 
-Make sure docker is installed on all 3 system 
+Explore all running Containers/Pods and Configurations
 ```sh
-master#> docker -v 
-node1#> docker -v 
-node2#> docker -v 
+
+User@Azure#>  kubectl get ns 
+
+User@Azure#>  kubectl get po -n kube-system
+
+User@Azure#>  kubectl get service 
+
+User@Azure#>  kubectl get deployments
+
+User@Azure#>  kubectl get daemonsets
+
+User@Azure#>  kubectl get replicasets 
+
+User@Azure#>  kubectl get statefulsets 
+
+User@Azure#>  kubectl get configmap 
+
+User@Azure#>  kubectl get secret 
+
+User@Azure#>  kubectl get storageclass 
+
+User@Azure#>  kubectl get pv
+
+User@Azure#>  kubectl get pvc
+
 ```
 
 # Step 4 
@@ -108,8 +131,7 @@ chown $(id -u):$(id -g) $HOME/.kube/config
 # Step 8 
 Verify with kubectl command in master.example.local 
 ```sh
- kubectl get po -n kube-system
- kubectl get node -o wide 
+
 ```
 
 # Step 9 
