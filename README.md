@@ -19,24 +19,24 @@ k8s Training Assets
 2. use git clone to clone this HUB
   
    ```sh 
-   git clone https://github.com/stv707/k8_training.git
+   git clone https://github.com/stv707/kubernetes_training.git
    ```
 
 3. Change Directory to hub directory  
 
-  ```sh 
-  cd k8_training/
-  ```
+   ```sh 
+   cd kubernetes_training/
+   ```
 
 4. Make main.sh executable 
-  ```sh 
-  chmod +x main.sh 
-  ``` 
+   ```sh 
+   chmod +x main.sh 
+   ``` 
 
 5. Execute main.sh with aks as argument 
-  ```sh 
-  ./main.sh aks
-  ```
+   ```sh 
+   ./main.sh aks
+   ```
    **NOTE**
    - You need to pass aks as arguments
    - aks arg will create Azure Kubernetes Service
