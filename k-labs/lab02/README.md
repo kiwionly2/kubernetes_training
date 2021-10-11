@@ -1,32 +1,55 @@
 #  Lab02 - Pods 
 
 # Step 1 
-
-Create and Verify your pod 
+Create and Verify Single Container Pod 
 
 To create the pod from your YAML file, use the kubectl create command:
 
 ```sh
- kubectl create -f kubia-manual.yaml 
- kubectl get po kubia-manual -o yaml
- kubectl get po kubia-manual -o json
+ kubectl create -f kubia-pod.yaml
+ 
+ kubectl get po kubia-pod -o yaml
+ 
+ kubectl get po kubia-pod -o json
+ 
  kubectl get pods
+
+ kubectl get pods -o wide
+
+ kubectl create -f box1.yaml
+
+ kubectl create -f box2.yaml
+
+ kubectl get pods -o wide
 ```
 
 # Step 2 
+Create and Verify Multi Container Pod ( init container )
 
-To see your pod’s log (more precisely, the container’s log) you run the following command on your local machine (no need to ssh anywhere):
 ```sh
-kubectl logs kubia-manual
+kubectl create -f kubia-pod-init-multi.yaml
+
+kubectl get pod kubia-pod-init -w
+**As per kubia-pod-init-multi.yaml manifest, init container runs sleep command for 90 second, after 90 Second, the main container will start
 ```
 
 # Step 3 
-Now, you’ll be creating a new pod with two labels. Use the file called kubia-manual-with-labels.yaml 
+Create and Verify Multi Container Pod ( sidecar container )
 
 ```sh
-kubectl create -f kubia-manual-with-labels.yaml
-kubectl get po --show-labels
-kubectl get po -L creation_method,env
+kubectl create -f kubia-pod-sidecar-multi.yaml
+
+kubectl get pod
+** Note from output there is 2/2 in READY state for sidecar-container-demo
+
+kubectl get pod -o wide
+** NOTE the IP address of sidecar-container-demo 
+
+kubectl exec -it box1 -- sh 
+# curl IP_sidecar-container-demo 
+# exit 
+
+kubectl delete -f kubia-pod-sidecar-multi.yaml
 ```
 
 # Step 4 
