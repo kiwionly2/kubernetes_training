@@ -94,6 +94,7 @@ kubectl get pod -l 'app in (ui,os,pc)',rel=beta
 
 # Step 5
 Labels can be attached to any Kubernetes object, including nodes
+
 ```sh
 kubectl get nodes
 
@@ -142,6 +143,7 @@ kubectl get pods
 
 # Step 7
 Deploy pods on different namespaces
+
 ```sh
 kubectl create -f kubia-namespace-full.yaml
 
@@ -159,11 +161,15 @@ kubectl get pod  -l rel=stable -A
 
 # Step 8
 Delete/Remove pods
+
 ```sh
-kubectl delete po kubia-gpu
-kubectl delete po -l creation_method=manual
-kubectl delete ns custom-namespace
-kubectl delete po --all
+kubectl delete pod kubia-ssd 
+
+kubectl delete pod -l rel=beta
+
+kubectl delete ns prod-ns
+
+kubectl delete pod --all
 ```
 
 END
