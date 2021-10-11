@@ -1,87 +1,116 @@
-#  Lab03A  
-Introducing liveness probes 
+# Lab04A
 
 # Step 
-You’ll create a new pod that includes an HTTP GET liveness probe and another pod with initial delay.
+Create Service and Test the Service
 
 ```sh
- kubectl create -f kubia-liveness-probe.yaml
- kubectl get po kubia-liveness
- kubectl describe po kubia-liveness
- kubectl create -f kubia-liveness-probe-initial-delay.yaml
-```
-# Lab03B  
+kubectl create -f kubia-svc.yaml
+kubectl create -f kubia.yaml
 
-# Step 
-Manage ReplicationController 
+kubectl get svc
+kubectl get pods -o wide
+
+curl <ip_pod>:8080
+curl <ip_svc>
+
+kubectl get pods  -o wide
+
+curl <ip_pod_1>:8080
+curl <ip_pod_2>:8080
+
+kubectl get svc
+curl <ip_svc>
+curl <ip_svc>
+```
+
+# Lab04B
+# Step
+Create NodePort Service and Test the Service
 
 ```sh
-kubectl create -f kubia-rc.yaml
-kubectl get pods
-kubectl delete pod kubia-xxxx
-kubectl get pods
-kubectl get rc
-kubectl describe rc kubia
-kubectl label pod kubia-xxxx app=foo --overwrite
-kubectl get pods -L app
-kubectl scale rc kubia --replicas=10
-kubectl scale rc kubia --replicas=3
-kubectl delete rc kubia
+kubectl create -f kubia-svc-nodeport.yaml
+
+curl <public_ip_vm002>:30123
+
+curl 192.168.1.4:30123
+curl 192.168.1.5:30123
+curl 192.168.1.6:30123
 ```
 
-# Lab03C
+# Lab04C
+# Step
+Create LoadBalancer Service and Test the Service
+```sh
+kubectl create -f kubia-svc-loadbalancer.yaml
+kubectl get svc
+```
+Here, you will see External IP is in Pending State forever 
 
-# Step 
-Manage ReplicaSets
+The Reason behind this is, we are not running our VM/System under Cloud Provided Kubernetes, therefore We Don't have External LoadBalancer to give us IP address 
+
+# Lab04D
+# Step 1
+Setup HAproxy to act as LoadBalancer 
 
 ```sh
-kubectl create -f  kubia-replicaset.yaml 
-kubectl get rs
-kubectl describe rs
-kubectl create -f kubia-replicaset-matchexpressions.yaml
-kubectl delete rs kubia
+master#> chmod +x haproxy.sh 
 
+master#> ./haproxy.sh 
 ```
-# Lab03D
 
-# Step 
-Manage DaemonSets
+# Step 2
+Setup Ingress Controller using nginx
+```sh
+kubectl apply -f common/ns-and-sa.yaml
+
+kubectl apply -f common/default-server-secret.yaml
+
+kubectl apply -f common/nginx-config.yaml
+
+kubectl apply -f rbac/rbac.yaml
+
+kubectl apply -f daemon-set/nginx-ingress.yaml
+```
+
+# Step 3
+Deploy Ingress based Service 
 
 ```sh
-kubectl get node
-kubectl label node node2 disk=ssd
-kubectl create -f ssd-monitor-daemonset.yaml
-kubectl get ds
-kubectl get po
-kubectl label node node2 disk=hdd --overwrite
-kubectl get po
-
+kubectl create -f kubia-ingress.yaml
+kubectl get ingresses
 ```
-# Lab03E
 
-# Step 
-Manage Jobs Resources 
+ADDRESS = vm002 Public IP address ( Check in Azure ) <br>
+You can add the following line to /etc/hosts (or C:\windows\system32\drivers\etc\hosts on Windows):
+
+(ADDRESS)  kubia.example.com
+
+Use your Web browser and reach http://kubia.example.com
+
+# Step 4
+Deploy Ingress based Service 
+
+Deploy Red and Blue svc, rc and single ingress to route to both services
 
 ```sh
-kubectl get jobs
-kubectl create -f batch-job.yaml
-kubectl get po
-kubectl logs batch-job-xxxxx
-kubectl get job
-kubectl create -f multi-completion-batch-job.yaml
-kubectl create -f multi-completion-parallel-batch-job.yaml
-kubectl get po
-kubectl scale job multi-completion-batch-job --replicas 3
+kubectl apply -f  multi-ingress/kubia-red-svc.yaml
+
+kubectl apply -f multi-ingress/kubia-red-rc.yaml
+
+kubectl apply -f multi-ingress/kubia-blue-svc.yaml
+
+kubectl apply -f multi-ingress/kubia-blue-rc.yaml
+
+kubectl apply -f multi-ingress/kubia-rb-ingress.yaml
+
+kubectl get ingresses
 ```
+ADDRESS = vm002 Public IP address ( Check in Azure ) <br>
+You can add the following line to /etc/hosts (or C:\windows\system32\drivers\etc\hosts on Windows):
 
-# Lab03F
+(ADDRESS)  kubiared.example.com <br>
+(ADDRESS)  kubiablue.example.com
 
-# Step 
+Use your Web browser and reach http://kubiared.example.com and http://kubiablue.example.com
 
-```sh
-kubectl get cronjobs
-kubectl create -f  cronjob.yaml
-kubectl get po 
-kubectl get cronjobs
-```
 END

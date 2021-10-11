@@ -110,7 +110,7 @@
                     {
                         "name": "agentpool",
                         "osDiskSizeGB": "[parameters('osDiskSizeGB')]",
-                        "count": 3,
+                        "count": 2,
                         "enableAutoScaling": false,
                         "vmSize": "Standard_D2s_v3",
                         "osType": "Linux",

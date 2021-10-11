@@ -1,116 +1,187 @@
-# Lab04A
-
+# Lab05A
 # Step 
-Create Service and Test the Service
+Using an emptyDir volume<br>
+The yaml file will create 1 pod with 2 containers<br>
+The html-generator container will run a script and generate index.html on /var/htdocs <br>
+The web-server container will serve index.html from /usr/share/nginx/html/ <br>
+Pod: fortune <br>
+Container: html-generator mounts html <br>
+Container: web-server mount html<br>
+the volume html is a emptyDir type <br> 
+see fortune-pod.yaml for settings <br>
 
 ```sh
-kubectl create -f kubia-svc.yaml
-kubectl create -f kubia.yaml
+cat fortune-pod.yaml
+kubectl create -f fortune-pod.yaml
 
-kubectl get svc
+kubectl get po fortune -o=custom-columns=NAME:.metadata.name,CONTAINERS:.spec.containers[*].name
+
+kubectl exec -i -t fortune --container html-generator  -- /bin/sh
+cat /var/htdocs/index.html
+exit
+
+kubectl exec -i -t fortune --container web-server  -- /bin/sh
+cat  /usr/share/nginx/html/index.html
+exit
+```
+
+# Lab05B
+# Step 
+Using an hostPath volume <br>
+The yaml file will create 2 pods (mongo-xxx), which will run on both worker node<br>
+hostPath volume will mount local worker node path <br>
+Data will persists on both worker node as separate data not shared <br>
+
+```sh
+cat mongodb-rc-pod-hostpath.yaml
+kubectl create -f mongodb-rc-pod-hostpath.yaml
+
 kubectl get pods -o wide
 
-curl <ip_pod>:8080
-curl <ip_svc>
+ssh node1.example.local 'ls /tmp/mongodb/'
+ssh node2.example.local 'ls /tmp/mongodb/'
 
-kubectl get pods  -o wide
+kubectl exec -it mongo-<pod1> -- mongo
+> use mystore
+> db.foo.insert({name:'foo Pan Pan'})
+> db.foo.find()
 
-curl <ip_pod_1>:8080
-curl <ip_pod_2>:8080
+kubectl exec -it mongo-<pod2> -- mongo
+> use mystore
+> db.bar.insert({name:'bar Pan Pan'})
+> db.bar.find()
 
-kubectl get svc
-curl <ip_svc>
-curl <ip_svc>
+kubectl get pods
+kubectl delete pods mongo-<pod1>
+kubectl delete pods mongo-<pod1>
+
+kubectl get pods
+kubectl exec -it mongo-<new_pod1> -- mongo
+> use mystore
+> db.foo.find()
+
+kubectl exec -it mongo-<new_pod2> -- mongo
+> use mystore
+> db.bar.find()
 ```
 
-# Lab04B
+Cleanup 
+```sh
+kubectl get pods
+kubectl get rc
+kubectl delete rc mongo
+
+kubectl get pods
+kubectl get rc
+```
+
+# Lab05C
 # Step
-Create NodePort Service and Test the Service
+Using an NFS volume <br>
+You will make the master.example.local node to act as a NFS server <br>
+A rc that will bring 2 pods up <br>
+Both pods will mount the NFS volume in master /nfsdata/dat1/ <br>
+Data on both pod will be stored on NFS volume in master /nfsdata/dat1/ <br>
 
 ```sh
-kubectl create -f kubia-svc-nodeport.yaml
+chmod +x nfssetup.sh 
+./nfssetup.sh 
 
-curl <public_ip_vm002>:30123
+kubectl create -f alpine-rc-pod-nfs.yaml
+kubectl get pods
 
-curl 192.168.1.4:30123
-curl 192.168.1.5:30123
-curl 192.168.1.6:30123
+master> ls /nfsdata/dat1/
+master> cat  /nfsdata/dat1/dates.txt
+
 ```
 
-# Lab04C
+# Lab05D
 # Step
-Create LoadBalancer Service and Test the Service
-```sh
-kubectl create -f kubia-svc-loadbalancer.yaml
-kubectl get svc
-```
-Here, you will see External IP is in Pending State forever 
-
-The Reason behind this is, we are not running our VM/System under Cloud Provided Kubernetes, therefore We Don't have External LoadBalancer to give us IP address 
-
-# Lab04D
-# Step 1
-Setup HAproxy to act as LoadBalancer 
+Using PersistentVolumes and PersistentVolumeClaims <br>
+You will create PersistentVolumes and PersistentVolumeClaims <br>
+Bring up a pod that uses claim (mongodb-pod-pvc-1.yaml) <br>
 
 ```sh
-master#> chmod +x haproxy.sh 
+kubectl get pv
+kubectl create -f mongodb-pv-nfs-1.yaml
+kubectl get pv
 
-master#> ./haproxy.sh 
+kubectl get pvc
+kubectl create -f mongodb-pvc-1.yaml
+kubectl get pvc
+
+kubectl create -f mongodb-pod-pvc-1.yaml
+
+ls /nfsdata/dat2
+
+kubectl exec -it mongodb1 -- mongo
+> use mystore
+> db.foo.insert({name:'foo Pan Pan'})
+> db.foo.find()
+exit
+
+kubectl get pods
+kubectl delete pods mongodb1
+ls /nfsdata/dat1
+
+kubectl get pv
+kubectl get pvc
 ```
 
-# Step 2
-Setup Ingress Controller using nginx
+Cleanup 
 ```sh
-kubectl apply -f common/ns-and-sa.yaml
 
-kubectl apply -f common/default-server-secret.yaml
+kubectl delete -f mongodb-pvc-1.yaml
 
-kubectl apply -f common/nginx-config.yaml
+kubectl delete  -f mongodb-pv-nfs-1.yaml
 
-kubectl apply -f rbac/rbac.yaml
-
-kubectl apply -f daemon-set/nginx-ingress.yaml
 ```
 
-# Step 3
-Deploy Ingress based Service 
+# Lab05E
+# Step
+Using Dynamic provisioning of PersistentVolumes<br>
+In order to use Dynamic provisioning, you need to use a provisioner <br>
+Cloud based Kubernetes provides this, in bare metal (private) Kubernetes,you need to create provisioner <br>
+Here you will deploy a NFS Provisioner and Storageclass <br>
 
 ```sh
-kubectl create -f kubia-ingress.yaml
-kubectl get ingresses
+ kubectl create -f nfs-provisioning/rbac.yaml
+ kubectl create -f nfs-provisioning/deployment.yaml
+
+ kubectl create -f nfs-provisioning/class.yaml
+ kubectl get storageclass
+
+ kubectl get pv
+ kubectl get pvc
+ ls /nfsdata/dat3/
+ 
+ **This will create PersistentVolumeClaims ( we do need to create PersistentVolume )
+
+ kubectl create -f nfs-provisioning/pvc-nfs.yaml
+ kubectl get pv
+ kubectl get pvc
+
+ kubectl create -f    nfs-provisioning/busybox-pv-nfs.yaml
+ kubectl get pods 
+ ls /nfsdata/dat3/
+
+ **Create another pod to take the claim 
+
+ kubectl create -f nfs-provisioning/pvc-nfs2.yaml
+ kubectl create -f    nfs-provisioning/busybox-pv-nfs2.yaml
+ ls /nfsdata/dat3/
+
 ```
 
-ADDRESS = vm002 Public IP address ( Check in Azure ) <br>
-You can add the following line to /etc/hosts (or C:\windows\system32\drivers\etc\hosts on Windows):
-
-(ADDRESS)  kubia.example.com
-
-Use your Web browser and reach http://kubia.example.com
-
-# Step 4
-Deploy Ingress based Service 
-
-Deploy Red and Blue svc, rc and single ingress to route to both services
-
+Cleanup
 ```sh
-kubectl apply -f  multi-ingress/kubia-red-svc.yaml
+kubectl get pods
+kubectl delete pods busybox
+kubectl delete pods busybox2
 
-kubectl apply -f multi-ingress/kubia-red-rc.yaml
+kubectl delete pvc --all
 
-kubectl apply -f multi-ingress/kubia-blue-svc.yaml
-
-kubectl apply -f multi-ingress/kubia-blue-rc.yaml
-
-kubectl apply -f multi-ingress/kubia-rb-ingress.yaml
-
-kubectl get ingresses
+ kubectl delete -f nfs-provisioning/class.yaml
+ 
 ```
-ADDRESS = vm002 Public IP address ( Check in Azure ) <br>
-You can add the following line to /etc/hosts (or C:\windows\system32\drivers\etc\hosts on Windows):
-
-(ADDRESS)  kubiared.example.com <br>
-(ADDRESS)  kubiablue.example.com
-
-Use your Web browser and reach http://kubiared.example.com and http://kubiablue.example.com
-
 END
