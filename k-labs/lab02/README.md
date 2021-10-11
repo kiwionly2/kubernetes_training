@@ -3,8 +3,6 @@
 # Step 1 
 Create and Verify Single Container Pod 
 
-To create the pod from your YAML file, use the kubectl create command:
-
 ```sh
  kubectl create -f kubia-pod.yaml
  
