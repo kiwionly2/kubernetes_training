@@ -1,6 +1,5 @@
 #  Lab02 - Pods 
 
-
 # Step 1 
 
 Create and Verify your pod 
