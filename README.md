@@ -43,4 +43,4 @@ main.sh will call all the other scripts automatically
 Thank You, Have Fun, Cheers<br>
 Steven<br>
 
-steven@cognitoz.com | steven@outlook.my | smahalin@redhat.com 
+smahalin@redhat.com  | stv707@gmail.com
