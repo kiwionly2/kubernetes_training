@@ -92,7 +92,7 @@ kubectl get pod -l 'app in (ui,os,pc)',rel=beta
 
 ```
 
-# Step 5
+# Step 6
 Labels can be attached to any Kubernetes object, including nodes
 
 ```sh
@@ -112,7 +112,7 @@ kubectl get pod kubia-ssd -o wide
 
 ```
 
-# Step 6
+# Step 7
 Create namespace to split pods to specific namespace 
 
 ```sh
@@ -141,7 +141,7 @@ kubectl get pods
 ```
 
 
-# Step 7
+# Step 8
 Deploy pods on different namespaces
 
 ```sh
@@ -159,7 +159,7 @@ kubectl get pod  -l rel=stable -A
 
 ```
 
-# Step 8
+# Step 9
 Delete/Remove pods
 
 ```sh
@@ -178,6 +178,21 @@ kubectl delete delete -f kubia-label.yaml
 kubectl delete ns dev-ns
 
 kubectl delete ns kubia-app-ns
+
+```
+
+# Step 10 
+Remove node label 
+
+```sh 
+
+kubectl get nodes -L ssd
+
+kubectl get nodes --show-labels  | grep ssd
+
+kubectl label node <NODE_NAME> ssd-
+
+kubectl get nodes -L ssd
 
 ```
 
