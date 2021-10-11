@@ -169,7 +169,16 @@ kubectl delete pod -l rel=beta
 
 kubectl delete ns prod-ns
 
-kubectl delete pod --all
+kubectl config set-context --current --namespace=default
+
+kubectl delete delete -f kubia-namespace-full.yaml
+
+kubectl delete delete -f kubia-label.yaml
+
+kubectl delete ns dev-ns
+
+kubectl delete ns kubia-app-ns
+
 ```
 
 END
