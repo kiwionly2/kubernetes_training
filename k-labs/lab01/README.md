@@ -118,13 +118,24 @@ User@Azure#>  kubectl get service
 
 User@Azure#>  kubectl apply -f voteapp.yaml 
 
-User@Azure#>  kubectl get service
+User@Azure#>  kubectl get service voteapp-frontend
+** Browse to the external IP address to verify app is running
+
 ```
 
 # Step 5
 
+Remove previously deployed App and verify there is no Service, Pod and Deployment defined 
 ```sh 
 
+User@Azure#>  kubectl delete -f voteapp.yaml 
 
+User@Azure#>  kubectl get deployments
+
+User@Azure#>  kubectl get svc
+
+User@Azure#>  kubectl get po
 
 ```
+
+#### END
