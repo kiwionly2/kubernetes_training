@@ -13,6 +13,8 @@ Access Azure Cloud Shell and Connect to AKS
 ![picture 1](../../images/1ccba30eda4a59d6473e7ccd94e63f0901c6aed775e74445fcc3910aa23f7955.png)  
 
 
+- Run the following command on Azure Cloud Shell
+
 ```sh
 User@Azure#> az account set --subscription $(az account list | grep id | awk '{print $2}'  | sed 's/"//g' | sed 's/,//g')
 
