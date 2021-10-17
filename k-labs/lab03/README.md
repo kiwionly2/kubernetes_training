@@ -171,55 +171,40 @@ kubectl get ingress -n app2
 * Note the IP Address of the ingress 
 * Both app1 and app2 should have same IP address 
 * Browse to app1 and app2 using the dns entry 
-
 ```
 
+# Lab03F
+# Step 1
+* Deploy Ingress based Service ( Path )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Step X
-Deploy Ingress based Service ( Path )
-
-Deploy Red and Blue svc, rc and single ingress to route to both services
+* In this step you will Deploy Red and Blue App and single ingress to route to both services
+* Make sure you are in path-based-ingress directory  ( cd ../../path-based-ingress)
 
 ```sh
-kubectl apply -f  multi-ingress/kubia-red-svc.yaml
 
-kubectl apply -f multi-ingress/kubia-red-rc.yaml
+kubectl apply -f redblue-namespace.yaml
 
-kubectl apply -f multi-ingress/kubia-blue-svc.yaml
+kubectl apply -f  kubia-red-svc.yaml
 
-kubectl apply -f multi-ingress/kubia-blue-rc.yaml
+kubectl apply -f  kubia-red-rc.yaml
 
-kubectl apply -f multi-ingress/kubia-rb-ingress.yaml
+kubectl apply -f  kubia-blue-svc.yaml
 
-kubectl get ingresses
+kubectl apply -f  kubia-blue-rc.yaml
+
+kubectl apply -f  kubia-rb-ingress.yaml
+
 ```
-ADDRESS = vm002 Public IP address ( Check in Azure ) <br>
-You can add the following line to /etc/hosts (or C:\windows\system32\drivers\etc\hosts on Windows):
 
-(ADDRESS)  kubiared.example.com <br>
-(ADDRESS)  kubiablue.example.com
+# Step 2
+```sh 
+kubectl get all -n redblue 
 
-Use your Web browser and reach http://kubiared.example.com and http://kubiablue.example.com
+kubectl get ingress -n redblue
+
+kubectl describe  ingress kubiaredblue -n redblue
+
+*Browse to host address with /blue and /red to view the page
+```
 
 END
