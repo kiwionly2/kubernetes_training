@@ -82,20 +82,22 @@ echo
 echo "Standby for Vital INFO...."
 DNS=$(az aks show --resource-group aks_rg --name aks_lab --query addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName -o table | grep \\. ) 
 sleep 5 
+SUBID=$(az account list | grep id | awk '{print $2}'  | sed 's/"//g' | sed 's/,//g')
 
+echo "Azure Sub ID: $SUBID"
 echo "AKS Cluster Name: aks_lab"
 echo "AKS Resource Group Name: aks_rg"
 echo "AKS DNS for ingress: $DNS"
 echo "Please keep this info for future reference"
-
 
 }
 
 function info_aks()
 {
 DNS=$(az aks show --resource-group aks_rg --name aks_lab --query addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName -o table | grep \\. ) 
-
+SUBID=$(az account list | grep id | awk '{print $2}'  | sed 's/"//g' | sed 's/,//g')
 cat <<EOF
+Azure Sub ID: $SUBID
 AKS Cluster Name: aks_lab
 AKS Resource Group Name: aks_rg
 AKS DNS for ingress: $DNS

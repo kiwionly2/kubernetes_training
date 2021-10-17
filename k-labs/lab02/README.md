@@ -171,9 +171,9 @@ kubectl delete ns prod-ns
 
 kubectl config set-context --current --namespace=default
 
-kubectl delete delete -f kubia-namespace-full.yaml
+kubectl delete  -f kubia-namespace-full.yaml
 
-kubectl delete delete -f kubia-label.yaml
+kubectl delete  -f kubia-label.yaml
 
 kubectl delete ns dev-ns
 
