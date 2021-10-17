@@ -28,22 +28,28 @@ k8s Training Assets
    cd kubernetes_training/
    ```
 
-4. Make main.sh executable 
+4. Make main* unix format 
    ```sh 
-   chmod +x main.sh 
+   dos2unix main* 
    ``` 
 
 5. Execute main.sh with aks as argument 
    ```sh 
-   ./main.sh aks
+   bash main.sh aks
    ```
    **NOTE**
    - You need to pass aks as arguments
    - aks arg will create Azure Kubernetes Service
-   - there is a hidden argument called init - WARNING - this will delete resources 
 
+6. Wait until the deployment is done. Then, Execute this to reveal Vital Info of AKS: 
+   ```sh 
+   bash main.sh info 
+   ```
+   **NOTE**
+   - Write down the vital info for future usage
+   - Vital info will be recorded in file aks_info.txt as well, ``` cat $HOME/aks_info.txt ```
 
 Thank You, Have Fun, Cheers<br>
 Steven<br>
 
-smahalin@redhat.com  | stv707@gmail.com
+smahalin@redhat.com
