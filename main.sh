@@ -25,6 +25,7 @@ if [ $# -ne 1 ]
   'cloud') non ;;#createrg_cloud ;;
   'aks'  ) createrg_cloud_aks ;;
   'init' ) reinit   ;;
+  'info' ) info_aks ;; 
         *) my_usage ;;
   esac
 fi

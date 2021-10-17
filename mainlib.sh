@@ -85,9 +85,22 @@ sleep 5
 
 echo "AKS Cluster Name: aks_lab"
 echo "AKS Resource Group Name: aks_rg"
-echo "AKS DNN for ingress: $DNS"
-echo "Please keep this info for futire reference"
+echo "AKS DNS for ingress: $DNS"
+echo "Please keep this info for future reference"
 
+
+}
+
+function info_aks()
+{
+DNS=$(az aks show --resource-group aks_rg --name aks_lab --query addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName -o table | grep \\. ) 
+
+cat <<EOF
+AKS Cluster Name: aks_lab
+AKS Resource Group Name: aks_rg
+AKS DNS for ingress: $DNS
+Please keep this info for future reference
+EOF
 
 }
 
