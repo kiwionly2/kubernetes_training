@@ -130,7 +130,7 @@
                     "imageReference": {
                         "publisher": "Canonical",
                         "offer": "UbuntuServer",
-                        "sku": "18_04-lts-gen2",
+                        "sku": "20_04-lts-gen2",
                         "version": "latest"
                     }
                 },

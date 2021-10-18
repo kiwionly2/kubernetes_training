@@ -24,13 +24,30 @@ function pubip()
 PIP=$(az vm show -d -g vm001_rg -n vm001 --query "publicIps" -o tsv)
 }
 
+function open_ssh()
+{
+
+ NSGNAME=$(az network nsg list -o tsv  | grep mc_aks | awk '{print $6}')
+
+}
+
 function open_pub()
 {
 # this is Dangerous, but for Training, NO PROBLEM , let them hack, there is nothing inside 
-az network nsg rule create -g vm001_rg --nsg-name vm001-nsg -n openpublic --priority 777 \
+az network nsg rule create -g vm001_rg --nsg-name vm001-nsg -n open_public --priority 777 \
     --source-address-prefixes '*' --source-port-ranges '*' \
     --destination-address-prefixes '*' --destination-port-ranges 1111-2049  --access Allow \
     --protocol Tcp --description "Open NFS Port" > /dev/null 
+}
+
+function open_aks_ssh()
+{
+open_ssh 
+az network nsg rule create -g vm001_rg --nsg-name $NSGNAME -n open_ssh --priority 772 \
+    --source-address-prefixes '*' --source-port-ranges '*' \
+    --destination-address-prefixes '*' --destination-port-ranges 22  --access Allow \
+    --protocol Tcp --description "Open SSH Port" > /dev/null 
+
 }
 
 function aks_subnet()
@@ -38,7 +55,6 @@ function aks_subnet()
 
 RG=$(az network vnet list -o tsv | grep MC  | awk '{print $14}') 
 VNET=$(az network vnet list -o tsv | grep MC  |  awk '{print $12}')
-
 SUBNET=$(az network vnet subnet list --vnet-name $VNET --resource-group $RG  -o tsv  | awk '{print $1}') 
 
 }
@@ -48,6 +64,9 @@ function config_vm001()
 #Configure vm001 with yum, disable Firewall , enable docker/nfs and run docker/nfs
 #Show user the PUBLIC IP address to connect 
 #Print How to connect from WINDOZE system using PUTTY
+
+#Open AKS SSH port
+open_aks_ssh
 
 #Disable strict host check
 sshhost > $HOME/.ssh/config
