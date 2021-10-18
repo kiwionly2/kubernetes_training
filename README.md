@@ -48,6 +48,9 @@ k8s Training Assets
    ```sh 
    bash main.sh vm001 
    ```
+   **NOTE**
+   - You need to pass vm001 as arguments
+   - aks arg will create additional vm for external service 
 
 Thank You, Have Fun, Cheers<br>
 Steven<br>
