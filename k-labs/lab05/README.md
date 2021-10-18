@@ -120,8 +120,9 @@ kubectl  create -f fortune-pod-https.yaml
 kubectl get pods -o wide
 
 kubectl exec -it jump1 -- sh
- #  curl   https://<fortune-https_pod_ip> -k 
+ # curl   https://<fortune-https_pod_ip> -k 
  # curl   https://<fortune-https_pod_ip> -k -v 
+ # exit 
 
 kubectl exec fortune-https -c web-server -- mount | grep certs
 
