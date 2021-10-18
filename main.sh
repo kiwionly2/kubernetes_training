@@ -23,9 +23,9 @@ if [ $# -ne 1 ]
   'vm001') createrg_vm001 && config_vm001 ;;
   'k8s'  ) non ;;#createrg_k8s  && config_k8s ;;
   'cloud') non ;;#createrg_cloud ;;
-  'aks'  ) createrg_cloud_aks && info_aks > $HOME/aks_info.txt ;;
+  'aks'  ) createrg_cloud_aks && info_aks > $HOME/aks_info.txt && createrg_vm001 && config_vm001 ;;
   'init' ) reinit   ;;
-  'info' ) info_aks ;; 
+  'info' ) info_aks ;;
         *) my_usage ;;
   esac
 fi
