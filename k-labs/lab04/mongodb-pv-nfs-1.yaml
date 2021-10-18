@@ -11,4 +11,4 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: 10.240.0.6
-    path: /export/data
+    path: /export/

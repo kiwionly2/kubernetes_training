@@ -129,10 +129,44 @@ kubectl create -f alpine-rc-pod-nfs.yaml
 kubectl get pods | grep alpine 
 *Wait until pod is running 
 
+kubectl describe pod alpine-xxxx 
+*Look for Mounts section and Volume Sections 
 
-master> ls /nfsdata/dat1/
-master> cat  /nfsdata/dat1/dates.txt
+ssh droot@vm001_public_ip_address 
 
+droot@vm001:~$ ls -l /export/
+
+droot@vm001:~$ ls -l /export/dates.txt
+
+droot@vm001:~$ tail -f  /export/dates.txt
+*Verify both alpine pod are writing to this NFS Share
+
+droot@vm001:~$ exit
+```
+
+# Step 4 
+ * Remove alpine pods 
+```sh 
+kubectl get pods | grep alpine
+
+kubectl delete -f alpine-rc-pod-nfs.yaml
+
+kubectl get pods | grep alpine
+```
+
+# Step 5
+ * Verify data still retained on vm001 NFS server  
+```sh 
+ssh droot@vm001_public_ip_address 
+
+droot@vm001:~$ ls -l /export/
+
+droot@vm001:~$ ls -l /export/dates.txt
+
+droot@vm001:~$ tail -f  /export/dates.txt
+*Verify data is not updating, as we already deleted alpine pods 
+
+droot@vm001:~$ exit
 ```
 
 # Lab04D
