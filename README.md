@@ -1,5 +1,5 @@
-# k8_training
-k8s Training Assets
+# Kube_training
+Kube Training Assets
 
 
 - This Hub contains the Scripts/JSON files to provision Kubernetes Cluster and Labs files needed for training
