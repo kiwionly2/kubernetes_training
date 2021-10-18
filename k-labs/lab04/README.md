@@ -1,4 +1,4 @@
-# Lab05A
+# Lab04A
 # Step 
 Using an emptyDir volume<br>
 The yaml file will create 1 pod with 2 containers<br>
@@ -12,20 +12,25 @@ see fortune-pod.yaml for settings <br>
 
 ```sh
 cat fortune-pod.yaml
+
 kubectl create -f fortune-pod.yaml
 
 kubectl get po fortune -o=custom-columns=NAME:.metadata.name,CONTAINERS:.spec.containers[*].name
 
+kubectl describe pod fortune 
+
 kubectl exec -i -t fortune --container html-generator  -- /bin/sh
-cat /var/htdocs/index.html
-exit
+# cat /var/htdocs/index.html
+# mount | grep /var/htdocs
+# exit
 
 kubectl exec -i -t fortune --container web-server  -- /bin/sh
-cat  /usr/share/nginx/html/index.html
-exit
+# cat  /usr/share/nginx/html/index.html
+# mount | grep /usr/share/nginx/html
+# exit
 ```
 
-# Lab05B
+# Lab04B
 # Step 
 Using an hostPath volume <br>
 The yaml file will create 2 pods (mongo-xxx), which will run on both worker node<br>
