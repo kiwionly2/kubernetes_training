@@ -38,12 +38,28 @@ virtualNetworkId="/subscriptions/${SUBID}/resourceGroups/k8s_rg/providers/Micros
 networkSecurityGroupId="/subscriptions/${SUBID}/resourceGroups/k8s_rg/providers/Microsoft.Network/networkSecurityGroups/vm002-nsg"
 }
 
+function aksvnet () 
+{
+
+AKSVNET=$(az network vnet list -o tsv | grep MC  | awk '{print $9}') 
+
+}
+
+
 function deploy_vm001()
 {
  echo "Deploying Node (vm001)....standby"
- az deployment group create -g ${VMNAME}_rg -f ./${VMNAME}/${VMNAME}_template.json -p ./${VMNAME}/${VMNAME}_parameters.json   -p  adminPublicKey="$SSHPUB" > /dev/null 
+
+ if [ ! -z $AKSVNET ]
+ then
+ az deployment group create -g ${VMNAME}_rg -f ./${VMNAME}/${VMNAME}_template.json -p ./${VMNAME}/${VMNAME}_parameters.json   -p  adminPublicKey="$SSHPUB"  -p virtualNetworkId="$AKSVNET" > /dev/null 
  sleep 5
  echo "Deployment of vm001...PASS"
+ else 
+ echo "Aks VNET not found... vm001 deployment....FAIL"
+ exit 33
+ fi 
+
 }
 
 function deploy_k8s()

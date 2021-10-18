@@ -29,13 +29,23 @@ function open_pub()
 # this is Dangerous, but for Training, NO PROBLEM , let them hack, there is nothing inside 
 az network nsg rule create -g vm001_rg --nsg-name vm001-nsg -n openpublic --priority 777 \
     --source-address-prefixes '*' --source-port-ranges '*' \
-    --destination-address-prefixes '*' --destination-port-ranges 1-65535  --access Allow \
-    --protocol Tcp --description "Open all PORT for Docker Container Testing" > /dev/null 
+    --destination-address-prefixes '*' --destination-port-ranges 1111-2049  --access Allow \
+    --protocol Tcp --description "Open NFS Port" > /dev/null 
+}
+
+function aks_subnet()
+{
+
+RG=$(az network vnet list -o tsv | grep MC  | awk '{print $14}') 
+VNET=$(az network vnet list -o tsv | grep MC  |  awk '{print $12}')
+
+SUBNET=$(az network vnet subnet list --vnet-name $VNET --resource-group $RG  -o tsv  | awk '{print $1}') 
+
 }
 
 function config_vm001()
 {
-#Configure vm001 with yum, disable Firewall , enable docker and run docker
+#Configure vm001 with yum, disable Firewall , enable docker/nfs and run docker/nfs
 #Show user the PUBLIC IP address to connect 
 #Print How to connect from WINDOZE system using PUTTY
 
@@ -46,23 +56,64 @@ sshhost > $HOME/.ssh/config
 pubip
 
 #call yumrepo function to install and settle Docker
-yumrepo &> /dev/null
+#yumrepo &> /dev/null
 
 #Enable root key based access 
-ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo sed -i 's/^#PermitRootLogin yes/PermitRootLogin without-password/g'  /etc/ssh/sshd_config"
-ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo touch /etc/cloud/cloud-init.disabled"
-ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo reboot"
+#ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo sed -i 's/^#PermitRootLogin yes/PermitRootLogin without-password/g'  /etc/ssh/sshd_config"
+#ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo touch /etc/cloud/cloud-init.disabled"
+#ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo reboot"
 
 #Wait for reboot to complete
-sleep 120 
+#sleep 120 
 
 #RePlumb IP after reboot
-pubip
+#pubip
+
+#Call aks_subnet
+aks_subnet
 
 #prep shellcode for injection
 cat <<AA > ak.sh
-#!/bin/bash 
-cat /home/droot/.ssh/authorized_keys  > /root/.ssh/authorized_keys
+#!/bin/bash
+
+# This script should be executed on Linux Ubuntu Virtual Machine
+
+EXPORT_DIRECTORY=${1:-/export/data}
+DATA_DIRECTORY=${2:-/data}
+AKS_SUBNET=$SUBNET
+
+echo "Updating packages"
+apt-get -y update
+
+echo "Installing NFS kernel server"
+
+apt-get -y install nfs-kernel-server
+
+echo "Making data directory ${DATA_DIRECTORY}"
+mkdir -p ${DATA_DIRECTORY}
+
+echo "Making new directory to be exported and linked to data directory: ${EXPORT_DIRECTORY}"
+mkdir -p ${EXPORT_DIRECTORY}
+
+echo "Mount binding ${DATA_DIRECTORY} to ${EXPORT_DIRECTORY}"
+mount --bind ${DATA_DIRECTORY} ${EXPORT_DIRECTORY}
+
+echo "Giving 777 permissions to ${EXPORT_DIRECTORY} directory"
+chmod 777 ${EXPORT_DIRECTORY}
+
+parentdir="$(dirname "$EXPORT_DIRECTORY")"
+echo "Giving 777 permissions to parent: ${parentdir} directory"
+chmod 777 $parentdir
+
+echo "Appending bound directories into fstab"
+echo "${DATA_DIRECTORY}    ${EXPORT_DIRECTORY}   none    bind  0  0" >> /etc/fstab
+
+echo "Appending localhost and Kubernetes subnet address ${AKS_SUBNET} to exports configuration file"
+echo "/export        ${AKS_SUBNET}(rw,async,insecure,fsid=0,crossmnt,no_subtree_check)" >> /etc/exports
+echo "/export        localhost(rw,async,insecure,fsid=0,crossmnt,no_subtree_check)" >> /etc/exports
+
+nohup service nfs-kernel-server restart
+
 AA
 
 #Inject ShellCode and run
@@ -75,14 +126,14 @@ ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo ./ak.sh"
 open_pub
 
 #Display INFO for Student
-echo 
-echo -e "vm001 fully deployed...you may download the private key from azure and use puttygen to convert to use it with putty in your Beloved WINDOZE"
-echo 
-echo -e "\e[93mDownload this file ($HOME/.ssh/id_rsa) to your WinDOZE computer and refer to \e[92mhttps://www.puttygen.com/convert-pem-to-ppk \e[93mto convert and use putty to connect to $PIP"
-echo 
-echo -e "\e[93mPublic IP address for your vm001 is $PIP"
-echo 
-echo -e "\e[93mFrom Azure Cloud Shell, you can execute  ( ssh -i \$HOME/.ssh/id_rsa root@$PIP )"
-echo -e "\e[93mEnjoy...- Steven.Com.My"
-echo -e "\033[0m"
+#echo 
+#echo -e "vm001 fully deployed...you may download the private key from azure and use puttygen to convert to use it with putty in your Beloved WINDOZE"
+#echo 
+#echo -e "\e[93mDownload this file ($HOME/.ssh/id_rsa) to your WinDOZE computer and refer to \e[92mhttps://www.puttygen.com/convert-pem-to-ppk \e[93mto convert and use putty to connect to $PIP"
+#echo 
+#echo -e "\e[93mPublic IP address for your vm001 is $PIP"
+#echo 
+#echo -e "\e[93mFrom Azure Cloud Shell, you can execute  ( ssh -i \$HOME/.ssh/id_rsa root@$PIP )"
+#echo -e "\e[93mEnjoy...- Steven.Com.My"
+#echo -e "\033[0m"
 }

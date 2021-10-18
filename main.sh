@@ -20,7 +20,7 @@ if [ $# -ne 1 ]
   addssh #This will create local Private/Public Key for VM
   subid  #This will catch your Azure Subscription ID
   case ${VMNAME} in
-  'vm001') non ;; #createrg_vm001 && config_vm001 ;;
+  'vm001') createrg_vm001 && config_vm001 ;;
   'k8s'  ) non ;;#createrg_k8s  && config_k8s ;;
   'cloud') non ;;#createrg_cloud ;;
   'aks'  ) createrg_cloud_aks && info_aks > $HOME/aks_info.txt ;;
