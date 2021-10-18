@@ -134,8 +134,8 @@ echo "Appending bound directories into fstab"
 echo "\${DATA_DIRECTORY}    \${EXPORT_DIRECTORY}   none    bind  0  0" >> /etc/fstab
 
 echo "Appending localhost and Kubernetes subnet address \${AKS_SUBNET} to exports configuration file"
-echo "/export        \${AKS_SUBNET}(rw,async,insecure,fsid=0,crossmnt,no_subtree_check)" >> /etc/exports
-echo "/export        localhost(rw,async,insecure,fsid=0,crossmnt,no_subtree_check)" >> /etc/exports
+echo "/export        \${AKS_SUBNET}(rw,async,insecure,fsid=0,crossmnt,no_subtree_check,no_root_squash)" >> /etc/exports
+echo "/export        localhost(rw,async,insecure,fsid=0,crossmnt,no_subtree_check,no_root_squash)" >> /etc/exports
 
 nohup service nfs-kernel-server restart
 
