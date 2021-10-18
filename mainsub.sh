@@ -9,14 +9,14 @@ Host *
 EOF
 }
 
-function yumrepo()
-{
-ssh droot@$PIP  "sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
-ssh droot@$PIP  "sudo yum makecache"
-ssh droot@$PIP  "sudo yum install docker-ce -y"
-ssh droot@$PIP  "sudo systemctl start docker"
-ssh droot@$PIP  "sudo systemctl enable docker"
-}
+#function yumrepo()
+# {
+#ssh droot@$PIP  "sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+#ssh droot@$PIP  "sudo yum makecache"
+##ssh droot@$PIP  "sudo yum install docker-ce -y"
+#ssh droot@$PIP  "sudo systemctl start docker"
+#ssh droot@$PIP  "sudo systemctl enable docker"
+# }
 
 function pubip()
 {
@@ -142,9 +142,9 @@ nohup service nfs-kernel-server restart
 AA
 
 #Inject ShellCode and run
-scp -i $HOME/.ssh/id_rsa  ak.sh  droot@$PIP:/home/droot/  &> /dev/null 
-ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo chmod +x ak.sh"  &> /dev/null 
-ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo ./ak.sh" &> /dev/null 
+scp -i $HOME/.ssh/id_rsa  ak.sh  droot@$PIP:/home/droot/  
+ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo chmod +x ak.sh" 
+ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo ./ak.sh" 
 
 
 #call openpub to allow incoming net traffic
