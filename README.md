@@ -15,6 +15,7 @@ k8s Training Assets
 
 # Steps to be Performed on Azure Cloud Shell: 
 
+# Start
 1. Go to Azure Shell - Bash
 2. use git clone to clone this HUB
   
@@ -51,6 +52,7 @@ k8s Training Assets
    **NOTE**
    - You need to pass vm001 as arguments
    - aks arg will create additional vm for external service 
+# END
 
 Thank You, Have Fun, Cheers<br>
 Steven<br>
