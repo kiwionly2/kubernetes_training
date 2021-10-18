@@ -28,6 +28,7 @@ function open_ssh()
 {
 
  NSGNAME=$(az network nsg list -o tsv  | grep mc_aks | awk '{print $6}')
+ AKSRGNAME=$(az network nsg list -o tsv  | grep mc_aks | awk '{print $9}')
 
 }
 
@@ -43,7 +44,7 @@ az network nsg rule create -g vm001_rg --nsg-name vm001-nsg -n open_public --pri
 function open_aks_ssh()
 {
 open_ssh 
-az network nsg rule create -g vm001_rg --nsg-name $NSGNAME -n open_ssh --priority 772 \
+az network nsg rule create -g $AKSRGNAME --nsg-name $NSGNAME -n open_ssh --priority 772 \
     --source-address-prefixes '*' --source-port-ranges '*' \
     --destination-address-prefixes '*' --destination-port-ranges 22  --access Allow \
     --protocol Tcp --description "Open SSH Port" > /dev/null 
