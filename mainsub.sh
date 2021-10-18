@@ -126,7 +126,7 @@ mount --bind \${DATA_DIRECTORY} \${EXPORT_DIRECTORY}
 echo "Giving 777 permissions to \${EXPORT_DIRECTORY} directory"
 chmod 777 \${EXPORT_DIRECTORY}
 
-parentdir="$(dirname "\$EXPORT_DIRECTORY")"
+parentdir="\$(dirname "\$EXPORT_DIRECTORY")"
 echo "Giving 777 permissions to parent: \${parentdir} directory"
 chmod 777 \$parentdir
 
