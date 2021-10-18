@@ -41,33 +41,52 @@ Data will persists on both worker node as separate data not shared <br>
 cat mongodb-rc-pod-hostpath.yaml
 kubectl create -f mongodb-rc-pod-hostpath.yaml
 
-kubectl get pods -o wide
+kubectl get pods -o wide | grep mongo 
 
-ssh node1.example.local 'ls /tmp/mongodb/'
-ssh node2.example.local 'ls /tmp/mongodb/'
+kubectl get nodes 
+
+kubectl debug node/<node_name_1> -it --image=mcr.microsoft.com/aks/fundamental/base-ubuntu:v0.0.11
+# chroot /host
+# ls /tmp/mongodb
+# exit
+# exit
+
+kubectl debug node/<node_name_2> -it --image=mcr.microsoft.com/aks/fundamental/base-ubuntu:v0.0.11
+# chroot /host
+# ls /tmp/mongodb
+# exit
+# exit
+
+kubectl get pod | grep mongo
 
 kubectl exec -it mongo-<pod1> -- mongo
 > use mystore
 > db.foo.insert({name:'foo Pan Pan'})
 > db.foo.find()
+> exit
 
 kubectl exec -it mongo-<pod2> -- mongo
 > use mystore
 > db.bar.insert({name:'bar Pan Pan'})
 > db.bar.find()
+> exit
 
-kubectl get pods
+kubectl get pods | grep mongo 
 kubectl delete pods mongo-<pod1>
 kubectl delete pods mongo-<pod1>
 
-kubectl get pods
+kubectl get pods | grep mongo 
 kubectl exec -it mongo-<new_pod1> -- mongo
 > use mystore
 > db.foo.find()
+> exit
 
 kubectl exec -it mongo-<new_pod2> -- mongo
 > use mystore
 > db.bar.find()
+> exit
+
+kubectl describe rc mongo
 ```
 
 Cleanup 
@@ -80,7 +99,7 @@ kubectl get pods
 kubectl get rc
 ```
 
-# Lab05C
+# Lab04C
 # Step
 Using an NFS volume <br>
 You will make the master.example.local node to act as a NFS server <br>
