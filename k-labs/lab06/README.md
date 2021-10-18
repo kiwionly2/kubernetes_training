@@ -1,4 +1,4 @@
-# Lab07A
+# Lab06A
 # Step 
 Exposing metadata to pods 
 
@@ -26,7 +26,7 @@ kubectl exec -it downward -- sh
 
 ```
 
-# Lab07B
+# Lab06B
 # Step 
 Exposing metadata to pods using downwardAPI
 
@@ -45,13 +45,13 @@ kubectl exec -it downward -- sh
 # exit 
 
 ```
-# Lab07C
+# Lab06C
 # Step 
 Exploring the Kubernetes REST API via curl
 
 ```sh
 kubectl cluster-info
-curl https://192.168.1.4:6443 -k
+curl https://xxxxx-aks-dns-xxxxxxx.hcp.southeastasia.azmk8s.io:443 -k
 
 kubectl proxy & 
 
@@ -63,20 +63,17 @@ jobs
 kill %1 
 ```
 
-# Lab07D
+# Lab06D
 # Step 
 Communication between a Pod and Kubernetes REST API 
 
 ```sh
 
-**UPDATE ( allow POD to reach the API - WARNING : NOT FOR PRODUCTION USE )
-kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --group=system:serviceaccounts
-
 kubectl create -f curl.yaml
 kubectl exec -it curl -- sh
  # env | grep KUBERNETES_SERVICE
  # curl https://kubernetes
- # ls/var/run/secrets/kubernetes.io/serviceaccount/
+ # ls /var/run/secrets/kubernetes.io/serviceaccount/
  # export CURL_CA_BUNDLE=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
  # curl https://kubernetes
  # TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
@@ -85,5 +82,35 @@ kubectl exec -it curl -- sh
  # curl -H "Authorization: Bearer $TOKEN" https://kubernetes/api/v1/namespaces/$NS/pods
  # exit 
 ```
+
+# Lab06E
+* SubCommand to view Kubernetes Resources 
+
+# Step 1 
+```sh 
+kubectl api-resources 
+
+kubectl api-versions
+
+kubectl config view
+
+```
+
+# Step 2 
+* Run Simple Python Program to access Kubernetes API and List running Pods and IP address on All Namespace
+
+```sh 
+
+cat kubepython.py 
+
+pip install kubernetes 
+
+python kubepython.py
+
+```
+
+
+
+
 
 END
