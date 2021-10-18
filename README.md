@@ -8,7 +8,6 @@ Kube Training Assets
 
 - Scriplet available in this Hub will use Azure Resource Manager(ARM) Template to create Kubernetes Cluster.
 
-
 - The only script you need to run is main.sh
 
 - main.sh will call all the other scripts automatically
@@ -34,7 +33,7 @@ Kube Training Assets
    bash main.sh aks
    ```
    **NOTE**
-   - You need to pass aks as arguments
+   - You need to pass aks as an argument
    - aks arg will create Azure Kubernetes Service
 
 5. Wait until the deployment is done. Then, Execute this to reveal Vital Info of AKS: 
@@ -50,8 +49,8 @@ Kube Training Assets
    bash main.sh vm001 
    ```
    **NOTE**
-   - You need to pass vm001 as arguments
-   - aks arg will create additional vm for external service 
+   - You need to pass vm001 as argument
+   - vm001 arg will create additional vm for external service
 # END
 
 Thank You, Have Fun, Cheers<br>
