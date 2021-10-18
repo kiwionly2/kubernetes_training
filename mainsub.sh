@@ -49,6 +49,11 @@ az network nsg rule create -g $AKSRGNAME --nsg-name $NSGNAME -n open_ssh --prior
     --destination-address-prefixes '*' --destination-port-ranges 22  --access Allow \
     --protocol Tcp --description "Open SSH Port" > /dev/null 
 
+az network nsg rule create -g $AKSRGNAME --nsg-name $NSGNAME -n open_nfs --priority 773 \
+    --source-address-prefixes '*' --source-port-ranges '*' \
+    --destination-address-prefixes '*' --destination-port-ranges 2049  --access Allow \
+    --protocol Tcp --description "Open NFS Port" > /dev/null 
+
 }
 
 function aks_subnet()
@@ -98,8 +103,8 @@ cat <<AA > ak.sh
 
 # This script should be executed on Linux Ubuntu Virtual Machine
 
-EXPORT_DIRECTORY=${1:-/export/data}
-DATA_DIRECTORY=${2:-/data}
+EXPORT_DIRECTORY=/export/data
+DATA_DIRECTORY=/data
 AKS_SUBNET=$SUBNET
 
 echo "Updating packages"
@@ -137,9 +142,9 @@ nohup service nfs-kernel-server restart
 AA
 
 #Inject ShellCode and run
-scp -i $HOME/.ssh/id_rsa  ak.sh  droot@$PIP:/home/droot/
-ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo chmod +x ak.sh"
-ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo ./ak.sh"
+scp -i $HOME/.ssh/id_rsa  ak.sh  droot@$PIP:/home/droot/  &> /dev/null 
+ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo chmod +x ak.sh"  &> /dev/null 
+ssh -i $HOME/.ssh/id_rsa  droot@$PIP  "sudo ./ak.sh" &> /dev/null 
 
 
 #call openpub to allow incoming net traffic
@@ -147,7 +152,7 @@ open_pub
 
 #Display INFO for Student
 #echo 
-#echo -e "vm001 fully deployed...you may download the private key from azure and use puttygen to convert to use it with putty in your Beloved WINDOZE"
+echo -e "vm001 fully deployed..."
 #echo 
 #echo -e "\e[93mDownload this file ($HOME/.ssh/id_rsa) to your WinDOZE computer and refer to \e[92mhttps://www.puttygen.com/convert-pem-to-ppk \e[93mto convert and use putty to connect to $PIP"
 #echo 
