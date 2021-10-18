@@ -88,7 +88,7 @@ kubectl exec fortune-configmap-volume -c web-server -- ls /etc/nginx/conf.d
 kubectl exec fortune-configmap-volume -c web-server -- ls /tmp/whole-fortune-config-volume
 
 ```
-# Lab06E
+# Lab05E
 # Step
 Creating Secrets <br>
 Create your own little Secret. You’ll improve your fortune-serving Nginx <br>
@@ -119,8 +119,9 @@ kubectl  create -f fortune-pod-https.yaml
 
 kubectl get pods -o wide
 
-  curl   https://<fortune-https_pod_ip> -k 
-  curl   https://<fortune-https_pod_ip> -k -v 
+kubectl exec -it jump1 -- sh
+ #  curl   https://<fortune-https_pod_ip> -k 
+ # curl   https://<fortune-https_pod_ip> -k -v 
 
 kubectl exec fortune-https -c web-server -- mount | grep certs
 
