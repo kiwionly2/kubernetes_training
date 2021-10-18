@@ -100,26 +100,42 @@ kubectl get rc
 ```
 
 # Lab04C
-# Step
+# Step 1
 Using an NFS volume <br>
 You will be using a NFS server running on vm001 to act as a NFS server <br>
 A rc that will bring 2 pods up <br>
-Both pods will mount the NFS volume in master /export/data/ <br>
-Data on both pod will be stored on NFS volume in vm001 /export/data/ <br>
+Both pods will mount the NFS volume in vm001 /export dir <br>
+Data on both pod will be stored on NFS volume in vm001 /export <br>
 
+## Step 2 
+ * Find the IP address of NFS Server ( vm001 )
+
+```sh 
+ az vm show -d -g vm001_rg -n vm001 --query "publicIps" -o tsv
+ *This is vm001 public ip address
+
+ az vm show -d -g vm001_rg -n vm001 --query "privateIps" -o tsv
+ *This is vm001 private address
+```
+
+
+# Step 3 
+* edit the alpine-rc-pod-nfs.yaml to include the private ip address 
 ```sh
-chmod +x nfssetup.sh 
-./nfssetup.sh 
+
+vim alpine-rc-pod-nfs.yaml
 
 kubectl create -f alpine-rc-pod-nfs.yaml
-kubectl get pods
+kubectl get pods | grep alpine 
+*Wait until pod is running 
+
 
 master> ls /nfsdata/dat1/
 master> cat  /nfsdata/dat1/dates.txt
 
 ```
 
-# Lab05D
+# Lab04D
 # Step
 Using PersistentVolumes and PersistentVolumeClaims <br>
 You will create PersistentVolumes and PersistentVolumeClaims <br>

@@ -25,5 +25,5 @@ spec:
       volumes:
         - name: my-data
           nfs:
-            server: master.example.local
-            path: /nfsdata/dat1
+            server: 10.240.0.6 # Change this to your vm001 Private IP address 
+            path: /export 
