@@ -10,5 +10,5 @@ spec:
     - ReadOnlyMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: master.example.local
-    path: /nfsdata/dat2
+    server: 10.240.0.6
+    path: /export/data
