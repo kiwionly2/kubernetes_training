@@ -102,10 +102,10 @@ kubectl get rc
 # Lab04C
 # Step
 Using an NFS volume <br>
-You will make the master.example.local node to act as a NFS server <br>
+You will be using a NFS server running on vm001 to act as a NFS server <br>
 A rc that will bring 2 pods up <br>
 Both pods will mount the NFS volume in master /nfsdata/dat1/ <br>
-Data on both pod will be stored on NFS volume in master /nfsdata/dat1/ <br>
+Data on both pod will be stored on NFS volume in vm001 /nfsdata/dat1/ <br>
 
 ```sh
 chmod +x nfssetup.sh 

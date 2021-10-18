@@ -40,10 +40,10 @@ networkSecurityGroupId="/subscriptions/${SUBID}/resourceGroups/k8s_rg/providers/
 
 function deploy_vm001()
 {
- echo "Deploying Docker Node (vm001)....standby"
+ echo "Deploying Node (vm001)....standby"
  az deployment group create -g ${VMNAME}_rg -f ./${VMNAME}/${VMNAME}_template.json -p ./${VMNAME}/${VMNAME}_parameters.json   -p  adminPublicKey="$SSHPUB" > /dev/null 
  sleep 5
- echo "Deployment of vm001 for Docker...PASS"
+ echo "Deployment of vm001...PASS"
 }
 
 function deploy_k8s()
