@@ -11,4 +11,3 @@ do
   /usr/games/fortune > /var/htdocs/index.html
   sleep $INTERVAL
 done
-

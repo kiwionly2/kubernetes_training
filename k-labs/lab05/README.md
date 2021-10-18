@@ -1,7 +1,8 @@
-# Lab06A
+# Lab05A
 # Step 
-Passing an argument in the pod definition
+* Passing an argument in the pod definition
 
+* Run the below statements, then edit the manifest and change the ARG value and rerun 
 ```sh
 cat fortune-args/fortuneloop.sh
 
@@ -11,11 +12,17 @@ cat fortune-pod-args.yaml
 kubectl apply -f fortune-pod-args.yaml
 
 kubectl get pods -o wide
-curl <ip_address_pod> ( * you have to wait 2 sec before the fortune changes 
-watch -n1 curl <ip_address_pod> 
+*note ip address of fortune2s
+
+kubectl exec -it jump1 -- sh
+# curl <ip_address_pod>
+# watch -n1 curl <ip_address_pod> 
+# exit 
+
+kubectl delete -f fortune-pod-args.yaml
 ```
 
-# Lab06B
+# Lab05B
 # Step 
 Setting environment variables for a container
 
@@ -25,28 +32,34 @@ cat fortune-pod-env.yaml
 kubectl create -f fortune-pod-env.yaml
 
 kubectl get pods -o wide
-curl <ip_address_pod>   ( * you have to wait 30 sec before the fortune changes )
-watch -n1 curl <ip_address_pod> 
+
+kubectl exec -it jump1 -- sh
+# curl <ip_address_pod>
+# watch -n1 curl <ip_address_pod> 
+# exit 
 ```
 
-# Lab06C
+# Lab05C
 # Step 
 Creating ConfigMaps 
 
 ```sh
 kubectl create -f fortune-config.yaml
 kubectl get configmaps
-kubectl get configmaps -o yaml 
+kubectl get configmaps fortune-config -o yaml 
 
 cat fortune-pod-env-configmap.yaml
 kubectl create -f fortune-pod-env-configmap.yaml
 
 kubectl get pods -o wide
-curl <ip_address_pod>   ( * you have to wait 25 sec before the fortune changes )
-watch -n1 curl <ip_address_pod>
+
+kubectl exec -it jump1 -- sh
+# curl <ip_address_pod>
+# watch -n1 curl <ip_address_pod> 
+# exit 
 ```
 
-# Lab06D
+# Lab05D
 # Step 
 ConfigMap volume 
 
@@ -66,9 +79,13 @@ kubectl create -f fortune-pod-configmap-volume.yaml
 
 kubectl get pods  -o wide
 
-curl -H "Accept-Encoding: gzip" -I <POD_IP_Address>
+kubectl exec -it jump1 -- sh
+# curl -H "Accept-Encoding: gzip" -I <POD_IP_Address>
+# exit 
 
 kubectl exec fortune-configmap-volume -c web-server -- ls /etc/nginx/conf.d
+
+kubectl exec fortune-configmap-volume -c web-server -- ls /tmp/whole-fortune-config-volume
 
 ```
 # Lab06E
