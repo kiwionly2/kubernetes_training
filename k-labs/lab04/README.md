@@ -107,7 +107,7 @@ A rc that will bring 2 pods up <br>
 Both pods will mount the NFS volume in vm001 /export dir <br>
 Data on both pod will be stored on NFS volume in vm001 /export <br>
 
-## Step 2 
+# Step 2 
  * Find the IP address of NFS Server ( vm001 )
 
 ```sh 
