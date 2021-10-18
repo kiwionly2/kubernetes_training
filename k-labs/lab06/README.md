@@ -109,7 +109,17 @@ python kubepython.py
 
 ```
 
+# Lab6F
+* Create CRD ( Simple Kubernetes Extension )
+```sh 
+kubectl create serviceaccount website-controller 
 
+kubectl create clusterrolebinding website-controller --clusterrole=cluster-admin --serviceaccount=default:website-controller
+
+kubectl apply -f 
+
+
+```
 
 
 
