@@ -15,7 +15,7 @@ k8s Training Assets
 
 # Steps to be Performed on Azure Cloud Shell: 
 
-1. Go Azure Shell - Bash
+1. Go to Azure Shell - Bash
 2. use git clone to clone this HUB
   
    ```sh 
@@ -28,12 +28,7 @@ k8s Training Assets
    cd kubernetes_training/
    ```
 
-4. Make main* unix format 
-   ```sh 
-   dos2unix main* 
-   ``` 
-
-5. Execute main.sh with aks as argument 
+4. Execute main.sh with aks as argument 
    ```sh 
    bash main.sh aks
    ```
@@ -41,7 +36,7 @@ k8s Training Assets
    - You need to pass aks as arguments
    - aks arg will create Azure Kubernetes Service
 
-6. Wait until the deployment is done. Then, Execute this to reveal Vital Info of AKS: 
+5. Wait until the deployment is done. Then, Execute this to reveal Vital Info of AKS: 
    ```sh 
    bash main.sh info 
    ```
@@ -49,7 +44,11 @@ k8s Training Assets
    - Write down the vital info for future usage
    - Vital info will be recorded in file aks_info.txt as well, ``` cat $HOME/aks_info.txt ```
 
+6. Deploy vm001 for External Service 
+   ```sh 
+   bash main.sh vm001 
+   ```
+
 Thank You, Have Fun, Cheers<br>
 Steven<br>
-
 smahalin@redhat.com

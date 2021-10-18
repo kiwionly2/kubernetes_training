@@ -179,6 +179,9 @@ Bring up a pod that uses claim (mongodb-pod-pvc-1.yaml) <br>
 kubectl get pv
 kubectl create -f mongodb-pv-nfs-1.yaml
 kubectl get pv
+kubectl create -f mongodb-pv-nfs-2.yaml
+kubectl get pv
+
 
 kubectl get pvc
 kubectl create -f mongodb-pvc-1.yaml
