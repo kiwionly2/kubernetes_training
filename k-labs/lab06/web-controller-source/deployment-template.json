@@ -2,21 +2,18 @@
   "apiVersion": "apps/v1",
   "kind": "Deployment",
   "metadata": {
-    "name": "[NAME]",
-    "labels": {
-      "webserver": "[NAME]"
-    }
+    "name": "[NAME]"
   },
   "spec": {
     "replicas": 1,
     "selector": { 
-      "matchlabels": { 
+      "matchLabels": { 
         "webserver": "[NAME]"
       }
     }, 
+    
     "template": {
       "metadata": {
-        "name": "[NAME]",
         "labels": {
           "webserver": "[NAME]"
         }
