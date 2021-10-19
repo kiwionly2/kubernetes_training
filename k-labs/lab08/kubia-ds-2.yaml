@@ -1,19 +1,16 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: ssd-monitor
+  name: kubiads2
 spec:
   selector:
     matchLabels:
-      app: ssd-monitor
+      app: kubiads2
   template:
     metadata:
       labels:
-        app: ssd-monitor
+        app: kubiads2
     spec:
-      nodeSelector:
-        disk: ssd
       containers:
       - name: main
-        image: stv707/ssd-monitor:v1
-
+        image: stv707/kubia:v14

@@ -89,17 +89,7 @@ kubectl delete rs kubiamx
 ```
 # Lab03D
 # Step 
-Manage DaemonSets
 
-```sh
-kubectl get node
-kubectl label node node2 disk=ssd
-kubectl create -f ssd-monitor-daemonset.yaml
-kubectl get ds
-kubectl get po
-kubectl label node node2 disk=hdd --overwrite
-kubectl get po
-```
 # Lab03E
 
 # Step 
