@@ -87,44 +87,4 @@ kubectl create -f kubia-replicaset-matchexpressions.yaml
 kubectl delete rs kubiamx
 
 ```
-# Lab03D
-# Step 
-Manage DaemonSets
-
-```sh
-kubectl get node
-kubectl label node node2 disk=ssd
-kubectl create -f ssd-monitor-daemonset.yaml
-kubectl get ds
-kubectl get po
-kubectl label node node2 disk=hdd --overwrite
-kubectl get po
-```
-# Lab03E
-
-# Step 
-Manage Jobs Resources 
-
-```sh
-kubectl get jobs
-kubectl create -f batch-job.yaml
-kubectl get po
-kubectl logs batch-job-xxxxx
-kubectl get job
-kubectl create -f multi-completion-batch-job.yaml
-kubectl create -f multi-completion-parallel-batch-job.yaml
-kubectl get po
-kubectl scale job multi-completion-batch-job --replicas 3
-```
-
-# Lab03F
-
-# Step 
-
-```sh
-kubectl get cronjobs
-kubectl create -f  cronjob.yaml
-kubectl get po 
-kubectl get cronjobs
-```
 END
