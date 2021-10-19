@@ -1,7 +1,6 @@
 # Kube_training
 Kube Training Assets
 
-
 - This Hub contains the Scripts/JSON files to provision Kubernetes Cluster and Labs files needed for training
 
 - This Scriplet/JSON files can be only used in MS Azure Cloud
@@ -51,8 +50,11 @@ Kube Training Assets
    **NOTE**
    - You need to pass vm001 as argument
    - vm001 arg will create additional vm for external service
+   - You No need to wait for this deployment
 # END
 
 Thank You, Have Fun, Cheers<br>
 Steven<br>
 smahalin@redhat.com
+
+* Hub Will go Private on 22nd Oct 2021 @ 8pm 
