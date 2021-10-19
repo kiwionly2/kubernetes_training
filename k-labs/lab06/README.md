@@ -22,8 +22,6 @@ kubectl exec -it downward -- sh
 # env | grep POD
 # echo $NODE_NAME
 # exit
-
-
 ```
 
 # Lab06B
@@ -43,8 +41,8 @@ kubectl exec -it downward -- sh
 # cd /etc/downward/
 # ls -l
 # exit 
-
 ```
+
 # Lab06C
 # Step 
 Exploring the Kubernetes REST API via curl
@@ -109,17 +107,70 @@ python kubepython.py
 
 ```
 
-# Lab6F
-* Create CRD ( Simple Kubernetes Extension )
+# Lab06F
+* Create CRD ( Custom Resource Definitions  )
+* Explore the source code in web-controller-source 
+
 ```sh 
+
 kubectl create serviceaccount website-controller 
+*Service Account and ClusterRoleBinding is needed by website-controller because kubernetes in Azure are RBAC enabled
 
 kubectl create clusterrolebinding website-controller --clusterrole=cluster-admin --serviceaccount=default:website-controller
+*Service Account and ClusterRoleBinding is needed by website-controller because kubernetes in Azure are RBAC enabled
 
-kubectl apply -f 
+kubectl apply -f website-crd.yaml 
+
+kubectl get crd 
+
+kubectl apply -f website-controller.yaml 
+
+kubectl get deployment 
+
+kubectl get pod | grep website-controller 
+
+kubectl apply -f stvweb1-website.yaml 
+```
+
+# Lab06G
+* Install MySQL Operator and verify a MySql 3 Node Cluster Deployment 
+
+```sh 
+kubectl apply -f mysql-operator/deploy-crds.yaml
+
+kubectl apply -f mysql-operator/deploy-operator.yaml
+
+kubectl get deployment -n mysql-operator mysql-operator
+
+kubectl create secret generic mypwds \
+        --from-literal=rootUser=root \
+        --from-literal=rootHost=% \
+        --from-literal=rootPassword="REPLACE ME"
+
+
+kubectl apply -f mysql-operator/sample-cluster.yaml
+
+kubectl get innodbcluster --watch
+
+kubectl get service mycluster
+
+kubectl describe service mycluster
+
+kubectl run -it --rm --image=mysql:latest --restart=Never mysql-client -- bash
+
+bash# mysql -uroot -h_IP_Address_MysqlCluster  -P6446 
+mysql> status ; 
+mysql> exit ; 
+bash# exit
+
 
 
 ```
+
+
+
+
+
 
 
 
