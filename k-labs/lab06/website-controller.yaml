@@ -16,6 +16,6 @@ spec:
       serviceAccountName: website-controller
       containers:
       - name: main
-        image: stv707/website-controller
+        image: stv707/website-controller:v1
       - name: proxy
         image: stv707/kubectl-proxy:1.6.2

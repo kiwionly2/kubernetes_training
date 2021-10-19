@@ -9,6 +9,11 @@
   },
   "spec": {
     "replicas": 1,
+    "selector": { 
+      "matchlabels": { 
+        "webserver": "[NAME]"
+      }
+    }, 
     "template": {
       "metadata": {
         "name": "[NAME]",
@@ -72,7 +77,6 @@
           {
             "name": "html",
             "emptyDir": {
-              "medium": ""
             }
           }
         ]
