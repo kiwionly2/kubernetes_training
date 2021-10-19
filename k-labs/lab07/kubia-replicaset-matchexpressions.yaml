@@ -10,8 +10,7 @@ spec:
         operator: In
         values:
          - kubiamx
-         - kubiars
-         - foo 
+         - foo
   template:
     metadata:
       labels:
