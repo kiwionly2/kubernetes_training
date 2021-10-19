@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: kubia
+  name: kubiars
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: kubia
+      app: kubiars
   template:
     metadata:
       labels:
-        app: kubia
+        app: kubiars
     spec:
       containers:
-      - name: kubia
-        image: luksa/kubia
+      - name: kubiars
+        image: stv707/kubia:v14

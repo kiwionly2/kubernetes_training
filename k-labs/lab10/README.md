@@ -1,131 +1,242 @@
-# Lab10A
+# Lab09A
 # Step 
-Limiting resources available to a pods/containers
+Using init container
+
+
 ```sh
+kubectl get pods
+kubectl apply -f pod-with-initcontainer.yaml
+kubectl get pods --watch
 
-**Request Resource 
+kubectl logs pod-with-initcontainer -c init-container-1 --timestamps=true
+kubectl logs pod-with-initcontainer -c init-container-2 --timestamps=true
 
-cat requests-pod.yaml
+kubectl logs pod-with-initcontainer --timestamps=true 
 
-kubectl apply -f requests-pod.yaml 
+kubectl get pods
+kubectl delete pod pod-with-initcontainer 
+```
 
-kubectl exec -it requests-pod -- sh 
-> top 
-> exit
+# Lab09B
+# Step 
+Using a StatefulSet
 
+```sh
+kubectl get pv,pvc
+kubectl get sc
 
-kubectl run requests-pod-2 --image=busybox --restart Never --requests='cpu=800m,memory=20Mi' -- dd if=/dev/zero of=/dev/null 
+kubectl get pod
+kubectl get statefulsets
 
-kubectl run requests-pod-3 --image=busybox --restart Never --requests='cpu=1,memory=20Mi' -- dd if=/dev/zero of=/dev/null 
+kubectl apply -f kubia-sc-class.yaml
+kubectl apply -f kubia-service-headless.yaml
 
-kubectl run requests-pod-4 --image=busybox --restart Never --requests='cpu=1,memory=20Mi' -- dd if=/dev/zero of=/dev/null 
+kubectl apply -f kubia-statefulset.yaml
 
-kubectl run requests-pod-5 --image=busybox --restart Never --requests='cpu=1,memory=20Mi' -- dd if=/dev/zero of=/dev/null 
+kubectl get pv,pvc
+kubectl get sc
 
-ssh node1.example.local 
-top 
-exit
+kubectl get pod 
+kubectl get statefulsets
+kubectl get pods --watch
 
-ssh node1.example.local
-top
-exit
+k apply -f kubia-service-public.yaml
 
-kubectl describe po requests-pod-5
+**Playing with your Pods 
+k get svc
 
+**Hit the pods
+curl (kubia-public IP address)
+
+**post some data
+curl -X POST -d "DataCON pan pan pan" (kubia-public IP address)
+curl (kubia-public IP address)
+
+**Directly post data to pods ( to simulate failure )
+k get pod -o wide
+
+curl (kubia-0 IP):8080
+curl -X POST -d "DATA: Jedi" (kubia-0 IP):8080
+curl (kubia-0 IP):8080
+
+curl (kubia-1 IP):8080
+curl -X POST -d "DATA: Sith" (kubia-1 IP):8080
+curl (kubia-1 IP):8080
+
+**Simulate POD failure
 k get pods 
-kubectl delete po requests-pod-4 --force
+kubectl delete pods (the_SITH) --grace-period=0 --force
 k get pods 
+curl (kubia-public IP address)
 
-k delete pod requests-pod-2 requests-pod-3 requests-pod-5 requests-pod  --force 
-
-**Explore limits
-k create -f limited-pod.yaml
+**Simulate NODE failure ( DO NOT DO THIS ON PRODUCTION )
+kubectl drain (node-name) --force --delete-local-data --ignore-daemonsets
 
 k get pods -o wide
 
-k describe nodes (node where the pod is running)
-
-k delete  -f  limited-pod.yaml --force
-
-**Some memory test 
-
-k apply -f memoryhog.yaml
-k get pods --watch 
-
-**Check the detail on what happen? 
-kubectl describe pod memoryhog 
-
-k delete -f memoryhog.yaml --force 
-
-**Explore limitsranges
-k apply -f limits.yaml
-k get limitranges
-
-k describe limitranges example
-
-k apply -f kubia-manual.yaml
-k get pod
-
-k describe pod kubia-manual
-
+**Bring back the node
+kubectl uncordon (node-name)
 ```
-# Lab10B
-# Step 
-ResourceQuota
+
+# Please clean up before moving to next LAB
+```sh
+kubectl get statefulsets
+k delete statefulsets.apps (statefulset name)
+k get pods
+
+k delete pvc --all
+k delete pv --all
+k delete svc --all
+
+ls /nfsdata/dat3 
+delete all the sub folder under dat3
+```
+
+# LAB09C
+# Steps
+MongoDB StatefulSet 
 ```sh
 
-* create NameSpace 
-kubectl create namespace jedi
-kubectl create namespace sith 
+ls /nfsdata/dat3/
+cat mongo-statefulset.yaml
 
+kubectl apply -f mongo-statefulset.yaml
+k get pods --watch
 
-* run create_user_namespace.sh to generate kubeconfig 
-chmod +x create_user_namespace.sh
-./create_user_namespace.sh jedi
-./create_user_namespace.sh sith
+```
+# Please clean up before moving to next LAB
+```sh
+kubectl get statefulsets
+k delete statefulsets.apps (statefulset name)
+k get pods
 
+k delete pvc --all
+k delete pv --all
+k delete svc --all
 
-* create hard pod limit 
-kubectl apply -f quota-pod_jedi.yaml --namespace=jedi 
-
-kubectl apply -f quota-pod_sith.yaml --namespace=sith
-
-
-* create linux user 
-useradd jedi1 
-useradd sith1
-
-* copy the config file to home dir of each 
-cp jedi_kubeconfig   ~jedi1 
-
-cp sith_kubeconfig   ~sith1 
-
-
-* copy quota_test_jedi.yaml to jedi1 user $HOME
-cp quota_test_jedi.yaml  ~jedi1
-
-* copy quota_test_sith.yaml to sith1 user $HOME
-cp quota_test_sith.yaml  ~sith1
-
-
-* set .bashrc to call the kubeconfig file on each home dir 
-echo "export KUBECONFIG=/home/jedi1/jedi_kubeconfig"  >> ~jedi1/.bashrc 
-echo "export KUBECONFIG=/home/sith1/sith_kubeconfig"  >> ~sith1/.bashrc 
-
-* update Access
-
-chown -R jedi1:jedi1  ~jedi1/* 
-
-chown -R sith1:sith1  ~sith1/*
-
-su - jedi1 
-kubectl apply -f quota_test_jedi.yaml
-*check the pods / deployments 
-
-*on another Terminal 
-su - sith1 
-kubectl apply -f quota_test_sith.yaml
-*check the pods / deployments 
+ls /nfsdata/dat3
+delete all the sub folder under dat3
 ```
 
+
+# Lab09D
+- Running MySQL Replication with Stateful Sets
+- refer: https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application/
+# Steps
+```sh
+kubectl apply -f mysql-configmap.yaml
+k get cm
+
+kubectl apply -f mysql-services.yaml
+k get svc
+
+kubectl apply -f mysql-statefulset.yaml 
+
+kubectl get pods -l app=mysql --watch
+
+
+** Create some DATA
+kubectl run mysql-client --image=mysql:5.7 -i --rm --restart=Never --\
+  mysql -h mysql-0.mysql <<EOF
+CREATE DATABASE test;
+CREATE TABLE test.messages (message VARCHAR(250));
+INSERT INTO test.messages VALUES ('hello');
+EOF
+
+** Create some data on READ only POD/Service -- it will fail 
+kubectl run mysql-client --image=mysql:5.7 -i --rm --restart=Never --\
+  mysql -h mysql-read <<EOF
+CREATE DATABASE test;
+CREATE TABLE test.messages (message VARCHAR(250));
+INSERT INTO test.messages VALUES ('hello WORLD 2');
+EOF
+
+
+kubectl run mysql-client --image=mysql:5.7 -i -t --rm --restart=Never --\
+  mysql -h mysql-read -e "SELECT * FROM test.messages"
+
+
+kubectl exec -it mysql-0  -- mysql
+mysql> SELECT * FROM test.messages; 
+mysql> exit; 
+
+kubectl exec -it mysql-1  -- mysql
+mysql> SELECT * FROM test.messages; 
+mysql> exit; 
+
+kubectl exec -it mysql-2  -- mysql
+mysql> SELECT * FROM test.messages; 
+mysql> exit; 
+
+
+  
+kubectl run mysql-client --image=mysql:5.7 -i -t --rm --restart=Never --\
+  mysql -h mysql-read -e "SELECT @@server_id,NOW()"
+
+
+**Run this on new terminal 
+kubectl run mysql-client-loop --image=mysql:5.7 -i -t --rm --restart=Never --\
+  bash -ic "while sleep 3; do mysql -h mysql-read -e 'SELECT @@server_id,NOW()'; done"
+
+**Simulate POD failure
+kubectl delete pod mysql-2
+
+kubectl run mysql-client --image=mysql:5.7 -i -t --rm --restart=Never --\
+  mysql -h mysql-read -e "SELECT * FROM test.messages"
+
+**Scale the statefulsets
+k get statefulsets.apps
+
+k scale statefulset --replicas=5 mysql
+k get pod --watch
+
+kubectl exec -it mysql-3  -- mysql
+mysql> SELECT * FROM test.messages; 
+mysql> exit; 
+
+kubectl exec -it mysql-4  -- mysql
+mysql> SELECT * FROM test.messages;
+mysql> exit;
+
+k scale statefulset --replicas=2 mysql
+kubectl exec -it mysql-0  -- mysql
+mysql> SELECT * FROM test.messages; 
+mysql> exit; 
+
+kubectl exec -it mysql-1  -- mysql
+mysql> SELECT * FROM test.messages;
+mysql> exit;
+
+
+ls -l /nfsdata/dat3/
+
+k get pv
+k get pvc
+
+k scale statefulset --replicas=5 mysql
+k get pod --watch
+
+kubectl exec -it mysql-3  -- mysql
+mysql> SELECT * FROM test.messages; 
+mysql> exit; 
+
+kubectl exec -it mysql-4  -- mysql
+mysql> SELECT * FROM test.messages;
+mysql> exit;
+
+```
+# Please clean up
+```sh
+kubectl get statefulsets
+k delete statefulsets.apps mysql
+k get pods
+
+k delete pvc --all
+k delete pv --all
+k delete svc --all 
+k delete cm --all 
+
+ls /nfsdata/dat3
+delete all the sub folder under dat3 
+```
 END

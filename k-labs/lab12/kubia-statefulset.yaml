@@ -28,7 +28,7 @@ spec:
     spec:
       resources:
         requests:
-          storage: 1Mi
+          storage: 4Gi
       accessModes:
       - ReadWriteOnce
       storageClassName: "nfs-storage"

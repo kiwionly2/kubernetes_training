@@ -7,3 +7,4 @@ reclaimPolicy: Retain
 parameters:
   archiveOnDelete: "false"
   accessModes: ReadWriteOnce
+

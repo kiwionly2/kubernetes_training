@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: kubia
+  name: kubiamx
 spec:
   replicas: 3
   selector:
@@ -9,12 +9,14 @@ spec:
       - key: app
         operator: In
         values:
-         - kubia
+         - kubiamx
+         - kubiars
+         - foo 
   template:
     metadata:
       labels:
-        app: kubia
+        app: kubiamx
     spec:
       containers:
-      - name: kubia
-        image: luksa/kubia
+      - name: kubiamx
+        image: stv707/kubia:latest

@@ -10,4 +10,3 @@ spec:
       httpGet:
         path: /
         port: 8080
-
