@@ -56,11 +56,15 @@ Make sure Terminal 2 still running the while loop <br>
 
 ```sh
 kubectl get pods
-kubectl set image deployment kubia nodejs=luksa/kubia:v3 --record
+
+kubectl set image deployment kubia nodejs=stv707/kubia:v3 --record
+
 kubectl rollout history deployment kubia
+
 kubectl get rs
 
 kubectl rollout undo deployment kubia
+
 kubectl rollout undo deployment kubia --to-revision=1
 ```
 
