@@ -7,16 +7,16 @@ Perform these steps on terminal 1 <br>
 ```sh
 
 kubectl get svc 
-*remove unwanted svc 
+ * remove unwanted svc 
 
 kubectl delete rc --all
-* remove all Replication Controller 
+ * remove unwanted Replication Controller / ReplicaSets
 
 cat kubia-deployment-and-service-v1.yaml
 
 kubectl create -f kubia-deployment-and-service-v1.yaml --record 
-*Be sure to include the --record command-line option when creating it.
-*This records the command in the revision history, which will be useful later.
+ * Be sure to include the --record command-line option when creating it.
+ * This records the command in the revision history, which will be useful later.
 
 kubectl get svc
 
@@ -42,11 +42,12 @@ we will use a jump Pod to perform curl to service kubia <br>
 Perform these steps on terminal 1 <br>
 ```sh
 kubectl set image deployment kubia nodejs=stv707/kubia:v2 --record
-*this will perform the update from v1 to v2 of the app 
+ * this will perform the update from v1 to v2 of the app 
 
 kubectl rollout history deployment kubia
+
 kubectl get rs
-```
+``` 
 
 # Lab09B
 # Step 
