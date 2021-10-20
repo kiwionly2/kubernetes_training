@@ -1,7 +1,7 @@
 # Lab09A
 # Step 
 Using Deployments for updating apps declaratively<br>
-Open up 2 terminal connection to master node <br>
+Open up 2 terminal connection to AKS<br>
 
 Perform these steps on terminal 1 <br>
 ```sh
