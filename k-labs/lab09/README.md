@@ -97,8 +97,6 @@ kubectl apply -f kubia-deployment-maxset-v4.yaml
 
 ```
 
-
-
 # Lab09D
 # Step 
 Blocking rollouts with readinessProbe<br>
@@ -123,6 +121,6 @@ kubectl rollout status deployment kubia
 kubectl delete -f kubia-deployment-and-service-v1.yaml
 
 ```
-You can control+c on terminal 2 to stop the while loop 
+You can control+c on terminal 2 to stop the while loop and issue exit.
 
 END
