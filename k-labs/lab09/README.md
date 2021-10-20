@@ -85,13 +85,13 @@ kubectl rollout undo deployment kubia --to-revision=1
 ```sh 
 kubectl delete deployments.apps kubia 
 
-*Stop the while loop on terminal 2 amd execute with sleep 1 
-
+ * Stop the while loop on terminal 2 amd execute with sleep 1 
+ # while true; do curl http://kubia; echo ; sleep 1 ;  done
 
 kubectl apply -f kubia-deployment-and-service-v1.yaml --record 
  
  * You should see v1 app kubia running 3 pod on Terminal 2 
- # while true; do curl http://kubia; echo ; sleep 1 ;  done
+
 
 kubectl apply -f kubia-deployment-maxset-v4.yaml
 
