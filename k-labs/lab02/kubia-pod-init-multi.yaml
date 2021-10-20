@@ -8,7 +8,8 @@ spec:
   initContainers:
   - name: sleepy
     image: alpine
-    command: ['sleep', '90']
+    command: ['sleep', '30']
+    #command: ['exit', '25']
   containers:
   - image: stv707/kubia:v14
     name: kubia-pod-init

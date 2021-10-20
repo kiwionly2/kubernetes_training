@@ -131,47 +131,4 @@ kubectl get pod | grep website-controller
 
 kubectl apply -f stvweb1-website.yaml 
 ```
-
-# Lab06G
-* Install MySQL Operator and verify a MySql 3 Node Cluster Deployment 
-
-```sh 
-kubectl apply -f mysql-operator/deploy-crds.yaml
-
-kubectl apply -f mysql-operator/deploy-operator.yaml
-
-kubectl get deployment -n mysql-operator mysql-operator
-
-kubectl create secret generic mypwds \
-        --from-literal=rootUser=root \
-        --from-literal=rootHost=% \
-        --from-literal=rootPassword="REPLACE ME"
-
-
-kubectl apply -f mysql-operator/sample-cluster.yaml
-
-kubectl get innodbcluster --watch
-
-kubectl get service mycluster
-
-kubectl describe service mycluster
-
-kubectl run -it --rm --image=mysql:latest --restart=Never mysql-client -- bash
-
-bash# mysql -uroot -h_IP_Address_MysqlCluster  -P6446 
-mysql> status ; 
-mysql> exit ; 
-bash# exit
-
-
-
-```
-
-
-
-
-
-
-
-
 END

@@ -1,4 +1,4 @@
-# Lab08A
+# Lab09A
 # Step 
 Using Deployments for updating apps declaratively<br>
 Open up 2 terminal connection to master node <br>
@@ -41,7 +41,7 @@ kubectl rollout history deployment kubia
 kubectl get rs
 
 ```
-# Lab08B
+# Lab09B
 # Step 
 Rolling back a deployment<br>
 Make sure Terminal 2 still running the while loop <br>
@@ -56,7 +56,7 @@ kubectl rollout undo deployment kubia
 kubectl rollout undo deployment kubia --to-revision=1
 ```
 
-# Lab08C
+# Lab09C
 # Step 
 Blocking rollouts with readinessProbe<br>
 Make sure Terminal 2 still running the while loop<br>
