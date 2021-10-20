@@ -67,7 +67,7 @@ User@Azure#> kubectl get pods --field-selector status.phase!=Running
 NAME                                           READY   STATUS      RESTARTS   AGE
 node-debugger-XXX                              0/1     Completed   0          13m
 
-User@Azure#> kubectl pod delete node-debugger-XXX
+User@Azure#> kubectl  delete pod node-debugger-XXX
 
 ```
 
