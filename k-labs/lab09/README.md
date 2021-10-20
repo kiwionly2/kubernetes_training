@@ -12,17 +12,23 @@ kubectl get svc
 kubectl delete rc --all
 * remove all Replication Controller 
 
- cat kubia-deployment-and-service-v1.yaml
- kubectl create -f kubia-deployment-and-service-v1.yaml --record 
+cat kubia-deployment-and-service-v1.yaml
+
+kubectl create -f kubia-deployment-and-service-v1.yaml --record 
 *Be sure to include the --record command-line option when creating it.
 *This records the command in the revision history, which will be useful later.
 
- kubectl get svc
- kubectl get deployment
- kubectl describe deployment
- kubectl rollout status deployment kubia
- kubectl get pod
- kubectl get replicasets
+kubectl get svc
+
+kubectl get deployment
+
+kubectl describe deployment
+
+kubectl rollout status deployment kubia
+
+kubectl get pod
+
+kubectl get replicasets
 ```
 
 Perform these steps on terminal 2 <br>
