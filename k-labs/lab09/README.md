@@ -32,21 +32,22 @@ kubectl get replicasets
 ```
 
 Perform these steps on terminal 2 <br>
-we are using ClusterIP type for service, check the IP <br>
+we will use a jump Pod to perform curl to service kubia <br>
 ```sh
-  kubectl get svc kubia
-  while true; do curl http://<kubia_app_ClusterIP>; sleep 5 ;  done
+  kubectl exec -it jump1 -- sh
+
+  # while true; do curl http://kubia; echo ; sleep 5 ;  done
 ```
 
 Perform these steps on terminal 1 <br>
 ```sh
-kubectl set image deployment kubia nodejs=luksa/kubia:v2 --record
+kubectl set image deployment kubia nodejs=stv707/kubia:v2 --record
 *this will perform the update from v1 to v2 of the app 
 
 kubectl rollout history deployment kubia
 kubectl get rs
-
 ```
+
 # Lab09B
 # Step 
 Rolling back a deployment<br>
