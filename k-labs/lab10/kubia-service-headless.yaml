@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kubia
+  name: kubiapet
 spec:
   clusterIP: None
   selector:
-    app: kubia
+    app: kubiapet
   ports:
   - name: http
     port: 80

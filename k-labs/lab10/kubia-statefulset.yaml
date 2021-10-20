@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: kubia
+  name: kubiapet
 spec:
-  serviceName: kubia
+  serviceName: kubiapet
   replicas: 2
   selector:
     matchLabels:
-      app: kubia # has to match .spec.template.metadata.labels
+      app: kubiapet # has to match .spec.template.metadata.labels
   template:
     metadata:
       labels:
-        app: kubia
+        app: kubiapet
     spec:
       containers:
-      - name: kubia
-        image: luksa/kubia-pet
+      - name: kubiapet
+        image: stv707/kubia-pet:v1
         ports:
         - name: http
           containerPort: 8080
@@ -28,7 +28,7 @@ spec:
     spec:
       resources:
         requests:
-          storage: 4Gi
+          storage: 1Gi
       accessModes:
       - ReadWriteOnce
-      storageClassName: "nfs-storage"
+      storageClassName: "default"

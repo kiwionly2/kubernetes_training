@@ -1,43 +1,25 @@
-# Lab09A
-# Step 
-Using init container
 
-
-```sh
-kubectl get pods
-kubectl apply -f pod-with-initcontainer.yaml
-kubectl get pods --watch
-
-kubectl logs pod-with-initcontainer -c init-container-1 --timestamps=true
-kubectl logs pod-with-initcontainer -c init-container-2 --timestamps=true
-
-kubectl logs pod-with-initcontainer --timestamps=true 
-
-kubectl get pods
-kubectl delete pod pod-with-initcontainer 
-```
-
-# Lab09B
+# Lab10A
 # Step 
 Using a StatefulSet
 
 ```sh
 kubectl get pv,pvc
-kubectl get sc
 
 kubectl get pod
+
 kubectl get statefulsets
 
-kubectl apply -f kubia-sc-class.yaml
 kubectl apply -f kubia-service-headless.yaml
 
 kubectl apply -f kubia-statefulset.yaml
 
 kubectl get pv,pvc
-kubectl get sc
 
 kubectl get pod 
+
 kubectl get statefulsets
+
 kubectl get pods --watch
 
 k apply -f kubia-service-public.yaml
@@ -46,11 +28,11 @@ k apply -f kubia-service-public.yaml
 k get svc
 
 **Hit the pods
-curl (kubia-public IP address)
+curl (kubiapet-public External IP address)
 
 **post some data
-curl -X POST -d "DataCON pan pan pan" (kubia-public IP address)
-curl (kubia-public IP address)
+curl -X POST -d "DataCON pan pan pan" (kubiapet-public IP address)
+curl (kubiapet-public IP address)
 
 **Directly post data to pods ( to simulate failure )
 k get pod -o wide
@@ -92,7 +74,7 @@ ls /nfsdata/dat3
 delete all the sub folder under dat3
 ```
 
-# LAB09C
+# LAB10C
 # Steps
 MongoDB StatefulSet 
 ```sh
@@ -119,7 +101,7 @@ delete all the sub folder under dat3
 ```
 
 
-# Lab09D
+# Lab10D
 - Running MySQL Replication with Stateful Sets
 - refer: https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application/
 # Steps

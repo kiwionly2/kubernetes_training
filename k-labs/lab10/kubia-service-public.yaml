@@ -1,10 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kubia-public
+  name: kubiapet-public
 spec:
-  selector:
-    app: kubia
+  type: LoadBalancer
   ports:
   - port: 80
     targetPort: 8080
+  selector:
+    app: kubiapet
