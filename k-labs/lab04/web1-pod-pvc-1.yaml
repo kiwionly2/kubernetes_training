@@ -18,7 +18,7 @@ spec:
           - name: my-data
             mountPath: /var/nfs
         command: ["/bin/sh"]
-        args: ["-c", "while true; do date >> /var/nfs/webstar1.txt; sleep 20; echo webstar1 >> /var/nfs/webstar1.txt; done"]
+        args: ["-c", "while true; do date >> /var/nfs/webstar1.txt; sleep 10; echo webstar1 >> /var/nfs/webstar1.txt; done"]
         ports:
         - containerPort: 7171
           protocol: TCP

@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: nfspv-5g
+  name: nfspv-15g
 spec:
   capacity: 
-    storage: 5Gi
+    storage: 15Gi
   accessModes:
     - ReadWriteOnce
     - ReadOnlyMany
