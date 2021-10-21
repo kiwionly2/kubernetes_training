@@ -22,10 +22,10 @@ kubectl get statefulsets
 
 kubectl get pods --watch
 
-k apply -f kubia-service-public.yaml
+kubectl apply -f kubia-service-public.yaml
 
 **Playing with your Pods 
-k get svc
+kubectl get svc
 
 **Hit the pods
 curl (kubiapet-public External IP address)
@@ -34,16 +34,16 @@ curl (kubiapet-public External IP address)
 curl -X POST -d "DataCON pan pan pan" (kubiapet-public IP address)
 curl (kubiapet-public IP address)
 
-**Directly post data to pods 
-k get pod -o wide
+**Directly post data to pods
+kubectl get pod -o wide
 
-kubectl exec -it jump1 -- sh 
+kubectl exec -it jump1 -- sh
 # curl (kubia-0 IP):8080
 # curl -X POST -d "DATA: Jedi" (kubia-0 IP):8080
 # curl (kubia-0 IP):8080
 # exit
 
-kubectl exec -it jump1 -- sh 
+kubectl exec -it jump1 -- sh
 # curl (kubia-1 IP):8080
 # curl -X POST -d "DATA: Sith" (kubia-1 IP):8080
 # curl (kubia-1 IP):8080
@@ -52,19 +52,25 @@ kubectl exec -it jump1 -- sh
 curl (kubiapet-public IP address)
 
 ```
-
 * Optional 
 * Simulate POD failure
 ```sh 
-k get pods 
+kubectl get nodes 
+
+kubectl get pods -o wide 
+
 kubectl delete pods (the_SITH) --grace-period=0 --force
 k get pods 
 curl (kubia-public IP address)
 
 **Simulate NODE failure ( DO NOT DO THIS ON PRODUCTION )
+* find the node that is running the kubiapet stateful pods, drain that pod
+
+kubectl get pods -o wide 
+
 kubectl drain (node-name) --force --delete-local-data --ignore-daemonsets
 
-k get pods -o wide
+kubectl get pods -o wide
 
 **Bring back the node
 kubectl uncordon (node-name)
@@ -74,8 +80,11 @@ kubectl uncordon (node-name)
 ```sh
 kubectl get statefulsets
 
-k delete statefulsets.apps (statefulset name)
+kubectl delete -f kubia-statefulset.yaml
 
+kubectl delete -f kubia-service-headless.yaml
+
+kubectl delete -f kubia-service-public.yaml
 ```
 
 # Lab10B
@@ -85,35 +94,37 @@ k delete statefulsets.apps (statefulset name)
 # Steps
 ```sh
 kubectl apply -f mysql-configmap.yaml
-k get cm
+
+kubectl get cm
 
 kubectl apply -f mysql-services.yaml
-k get svc
+
+kubectl get svc
 
 kubectl apply -f mysql-statefulset.yaml 
 
 kubectl get pods -l app=mysql --watch
 
-
 ** Create some DATA
-kubectl run mysql-client --image=mysql:5.7 -i --rm --restart=Never --\
-  mysql -h mysql-0.mysql <<EOF
-CREATE DATABASE test;
-CREATE TABLE test.messages (message VARCHAR(250));
-INSERT INTO test.messages VALUES ('hello');
-EOF
+kubectl exec -it mysql-0 -- bash 
+
+# mysql 
+# mysql> CREATE DATABASE test;
+# mysql> CREATE TABLE test.messages (message VARCHAR(250));
+# mysql> INSERT INTO test.messages VALUES ('hello');
+# mysql> SELECT * from test.messages;
+# mysql> exit
+# exit 
+
 
 ** Create some data on READ only POD/Service -- it will fail 
-kubectl run mysql-client --image=mysql:5.7 -i --rm --restart=Never --\
-  mysql -h mysql-read <<EOF
-CREATE DATABASE test;
-CREATE TABLE test.messages (message VARCHAR(250));
-INSERT INTO test.messages VALUES ('hello WORLD 2');
-EOF
+kubectl exec -it mysql-1 -- bash 
 
-
-kubectl run mysql-client --image=mysql:5.7 -i -t --rm --restart=Never --\
-  mysql -h mysql-read -e "SELECT * FROM test.messages"
+# mysql 
+# mysql> CREATE DATABASE test;
+# mysql> SELECT * from test.messages;
+# mysql> exit
+# exit 
 
 
 kubectl exec -it mysql-0  -- mysql
@@ -123,42 +134,28 @@ mysql> exit;
 kubectl exec -it mysql-1  -- mysql
 mysql> SELECT * FROM test.messages; 
 mysql> exit; 
+
+kubectl create  -f mysql-client.yaml
+
+kubectl exec -it mysql-client -- bash
+
+# root@mysql-client:/# mysql -h mysql-read -e "SELECT @@server_id,NOW()"
+# root@mysql-client:/# exit
+
+
+**Scale the statefulsets
+kubectl get statefulsets.apps
+
+kubectl scale statefulset --replicas=3 mysql
+kubectl get pod --watch
 
 kubectl exec -it mysql-2  -- mysql
 mysql> SELECT * FROM test.messages; 
 mysql> exit; 
 
 
-  
-kubectl run mysql-client --image=mysql:5.7 -i -t --rm --restart=Never --\
-  mysql -h mysql-read -e "SELECT @@server_id,NOW()"
+kubectl scale statefulset --replicas=2 mysql
 
-
-**Run this on new terminal 
-kubectl run mysql-client-loop --image=mysql:5.7 -i -t --rm --restart=Never --\
-  bash -ic "while sleep 3; do mysql -h mysql-read -e 'SELECT @@server_id,NOW()'; done"
-
-**Simulate POD failure
-kubectl delete pod mysql-2
-
-kubectl run mysql-client --image=mysql:5.7 -i -t --rm --restart=Never --\
-  mysql -h mysql-read -e "SELECT * FROM test.messages"
-
-**Scale the statefulsets
-k get statefulsets.apps
-
-k scale statefulset --replicas=4 mysql
-k get pod --watch
-
-kubectl exec -it mysql-3  -- mysql
-mysql> SELECT * FROM test.messages; 
-mysql> exit; 
-
-kubectl exec -it mysql-4  -- mysql
-mysql> SELECT * FROM test.messages;
-mysql> exit;
-
-k scale statefulset --replicas=2 mysql
 kubectl exec -it mysql-0  -- mysql
 mysql> SELECT * FROM test.messages; 
 mysql> exit; 
@@ -168,38 +165,34 @@ mysql> SELECT * FROM test.messages;
 mysql> exit;
 
 
-k get pv
-k get pvc
+kubectl get pv -l app=mysql
+kubectl get pvc -l app=mysql
 
-k scale statefulset --replicas=5 mysql
-k get pod --watch
-
-kubectl exec -it mysql-3  -- mysql
-mysql> SELECT * FROM test.messages; 
-mysql> exit; 
-
-kubectl exec -it mysql-4  -- mysql
-mysql> SELECT * FROM test.messages;
-mysql> exit;
 
 ```
-# Please clean up
+# Please clean up 
 ```sh
 kubectl get statefulsets
-k delete statefulsets.apps mysql
-k get pods
 
-k delete pvc --all
-k delete pv --all
-k delete svc --all 
-k delete cm --all 
+kubectl delete statefulsets.apps mysql
 
-ls /nfsdata/dat3
-delete all the sub folder under dat3 
+kubectl get pods -l app=mysql 
+
+kubectl get pv | grep mysql 
+
+kubectl get pvc -l app=mysql 
+
+kubectl delete pvc -l app=mysql
+
+kubectl get pvc -l app=mysql 
+
+kubectl delete svc -l app=mysql
+
+kubectl delete cm -l app=mysql
 ```
 
-# Lab10G - Operator
-* Install MySQL Operator and verify a MySql 3 Node Cluster Deployment 
+# Lab10C - Operator
+* Install MySQL Operator, Deploy Mysql HA and verify a MySql 3 Node Cluster Deployment 
 
 ```sh 
 kubectl apply -f mysql-operator/deploy-crds.yaml
@@ -228,8 +221,5 @@ bash# mysql -uroot -h_IP_Address_MysqlCluster  -P6446
 mysql> status ; 
 mysql> exit ; 
 bash# exit
-
-
-
 ```
 END

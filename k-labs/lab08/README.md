@@ -59,6 +59,7 @@ kubectl get pod --selector=app=kubiads2 -o wide
 kubectl get ds
 
 ```
+
 # Lab08B
 # Step 1
 ```sh
