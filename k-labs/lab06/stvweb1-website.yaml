@@ -4,4 +4,3 @@ metadata:
   name: stvweb1
 spec:
   gitRepo: https://github.com/stv707/stvweb1.git
-

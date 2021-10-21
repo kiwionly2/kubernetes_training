@@ -34,18 +34,28 @@ curl (kubiapet-public External IP address)
 curl -X POST -d "DataCON pan pan pan" (kubiapet-public IP address)
 curl (kubiapet-public IP address)
 
-**Directly post data to pods ( to simulate failure )
+**Directly post data to pods 
 k get pod -o wide
 
-curl (kubia-0 IP):8080
-curl -X POST -d "DATA: Jedi" (kubia-0 IP):8080
-curl (kubia-0 IP):8080
+kubectl exec -it jump1 -- sh 
+# curl (kubia-0 IP):8080
+# curl -X POST -d "DATA: Jedi" (kubia-0 IP):8080
+# curl (kubia-0 IP):8080
+# exit
 
-curl (kubia-1 IP):8080
-curl -X POST -d "DATA: Sith" (kubia-1 IP):8080
-curl (kubia-1 IP):8080
+kubectl exec -it jump1 -- sh 
+# curl (kubia-1 IP):8080
+# curl -X POST -d "DATA: Sith" (kubia-1 IP):8080
+# curl (kubia-1 IP):8080
+# exit
 
-**Simulate POD failure
+curl (kubiapet-public IP address)
+
+```
+
+* Optional 
+* Simulate POD failure
+```sh 
 k get pods 
 kubectl delete pods (the_SITH) --grace-period=0 --force
 k get pods 
@@ -63,47 +73,15 @@ kubectl uncordon (node-name)
 # Please clean up before moving to next LAB
 ```sh
 kubectl get statefulsets
+
 k delete statefulsets.apps (statefulset name)
-k get pods
-
-k delete pvc --all
-k delete pv --all
-k delete svc --all
-
-ls /nfsdata/dat3 
-delete all the sub folder under dat3
-```
-
-# LAB10C
-# Steps
-MongoDB StatefulSet 
-```sh
-
-ls /nfsdata/dat3/
-cat mongo-statefulset.yaml
-
-kubectl apply -f mongo-statefulset.yaml
-k get pods --watch
 
 ```
-# Please clean up before moving to next LAB
-```sh
-kubectl get statefulsets
-k delete statefulsets.apps (statefulset name)
-k get pods
 
-k delete pvc --all
-k delete pv --all
-k delete svc --all
-
-ls /nfsdata/dat3
-delete all the sub folder under dat3
-```
-
-
-# Lab10D
-- Running MySQL Replication with Stateful Sets
+# Lab10B
+- Running MySQL Replication with Stateful Sets (Single Master (rw) with Slave(ro) )
 - refer: https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application/
+
 # Steps
 ```sh
 kubectl apply -f mysql-configmap.yaml
@@ -169,7 +147,7 @@ kubectl run mysql-client --image=mysql:5.7 -i -t --rm --restart=Never --\
 **Scale the statefulsets
 k get statefulsets.apps
 
-k scale statefulset --replicas=5 mysql
+k scale statefulset --replicas=4 mysql
 k get pod --watch
 
 kubectl exec -it mysql-3  -- mysql
@@ -189,8 +167,6 @@ kubectl exec -it mysql-1  -- mysql
 mysql> SELECT * FROM test.messages;
 mysql> exit;
 
-
-ls -l /nfsdata/dat3/
 
 k get pv
 k get pvc

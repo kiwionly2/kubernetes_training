@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: downward
+  name: downward-volume
   labels:
     foo: bar
   annotations:
@@ -18,10 +18,10 @@ spec:
     resources:
       requests:
         cpu: 15m
-        memory: 100Ki
+        memory: 32Mi
       limits:
         cpu: 100m
-        memory: 4Mi
+        memory: 64Mi
     volumeMounts:
     - name: downward
       mountPath: /etc/downward
