@@ -131,13 +131,3 @@ kubectl delete -f kubia-ds-2.yaml
 kubectl delete -f ssd-monitor-daemonset.yaml
 
 ```
-
-# Step 3 
-* Clean Up 
-* remove additional Nodes 
-
-```sh 
-
-az aks scale --resource-group aks_rg --name aks_lab --node-count 2
-
-```
