@@ -141,7 +141,7 @@ To sign in, use a web browser to open the page https://microsoft.com/devicelogin
 # droot@vm001:~$ bash create_user_namespace.sh sith
 
 
-* create hard pod limit 
+* create hard limit quota
 # droot@vm001:~$ kubectl apply -f quota-pod_jedi.yaml --namespace=jedi 
 
 # droot@vm001:~$ kubectl apply -f quota-pod_sith.yaml --namespace=sith
