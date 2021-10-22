@@ -204,6 +204,29 @@ To sign in, use a web browser to open the page https://microsoft.com/devicelogin
 
 # sith@vm001:~$ exit
 
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ kubectl  apply -f limits2.yaml
+
+# droot@vm001:~$ sudo su - sith
+
+# sith@vm001:~$ kubectl get pods
+
+# sith@vm001:~$ kubectl  get deployments
+
+# sith@vm001:~$ kubectl describe limitranges
+
+# sith@vm001:~$ kubectl delete -f quota_test_sith.yaml
+
+# sith@vm001:~$ kubectl  get deployments 
+
+# sith@vm001:~$ kubectl  apply -f quota_test_sith.yaml
+
+# sith@vm001:~$ sith@vm001:~$ kubectl describe resourcequotas sith-quota
+
+# sith@vm001:~$ kubectl  get deployments 
+
+# sith@vm001:~$ kubectl get pods
+
+# exit
 
 ```
 
