@@ -15,3 +15,5 @@ spec:
       containers:
       - name: kubiars
         image: stv707/kubia:v14
+        ports:
+        - containerPort: 8080

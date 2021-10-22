@@ -11,6 +11,8 @@ spec:
       labels:
         app: kubiads2
     spec:
+      nodeSelector:
+        disk: ssd
       containers:
       - name: main
         image: stv707/kubia:v14
