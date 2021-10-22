@@ -12,7 +12,7 @@ spec:
         app: kubiads2
     spec:
       nodeSelector:
-        disk: ssd
+        gpu: nvidia
       containers:
       - name: main
         image: stv707/kubia:v14

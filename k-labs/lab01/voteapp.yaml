@@ -39,7 +39,7 @@ kind: Deployment
 metadata:
   name: voteapp-frontend
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: voteapp-frontend
@@ -68,7 +68,16 @@ spec:
         env:
         - name: REDIS
           value: voteapp-backend
----
+      tolerations:
+      - key: extra
+        operator: "Equal"
+        value: "amd"
+        effect: "NoSchedule"
+      - key: gpu
+        operator: "Equal"
+        value: "nvidia"
+        effect: "NoSchedule"
+---  
 apiVersion: v1
 kind: Service
 metadata:

@@ -215,9 +215,9 @@ kubectl get service mycluster
 
 kubectl describe service mycluster
 
-kubectl run -it --rm --image=mysql:latest --restart=Never mysql-client -- bash
+kubectl exec -it mysql-client -- bash 
 
-bash# mysql -uroot -h_IP_Address_MysqlCluster  -P6446 
+bash# mysql -uroot -h IP_Address_MysqlCluster  -P6446 -p 
 mysql> status ; 
 mysql> exit ; 
 bash# exit
