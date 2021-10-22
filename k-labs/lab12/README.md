@@ -109,9 +109,11 @@ To sign in, use a web browser to open the page https://microsoft.com/devicelogin
 # droot@vm001:~$ kubectl cluster-info 
 * You should receive Cluster Info Output
 
-# droot@vm001:~$ sudo useradd jedi 
+# droot@vm001:~$ sudo adduser jedi 
+**use any password and leave blank for any other field 
 
-# droot@vm001:~$ sudo useradd sith 
+# droot@vm001:~$ sudo adduser sith 
+**use any password and leave blank for any other field 
 
 # droot@vm001:~$ tail -n2 /etc/passwd
 
@@ -133,55 +135,76 @@ To sign in, use a web browser to open the page https://microsoft.com/devicelogin
 # droot@vm001:~/kubernetes_training/k-labs/lab12$ kubectl create namespace sith
 
 
-
-
 * run create_user_namespace.sh to generate kubeconfig 
 
-bash create_user_namespace.sh jedi
-bash create_user_namespace.sh sith
+# droot@vm001:~$ bash create_user_namespace.sh jedi
+# droot@vm001:~$ bash create_user_namespace.sh sith
 
 
 * create hard pod limit 
-kubectl apply -f quota-pod_jedi.yaml --namespace=jedi 
+# droot@vm001:~$ kubectl apply -f quota-pod_jedi.yaml --namespace=jedi 
 
-kubectl apply -f quota-pod_sith.yaml --namespace=sith
+# droot@vm001:~$ kubectl apply -f quota-pod_sith.yaml --namespace=sith
 
 
-* create linux user 
-useradd jedi1 
-useradd sith1
 
 * copy the config file to home dir of each 
-cp jedi_kubeconfig   ~jedi1 
+# droot@vm001:~$ sudo cp jedi_kubeconfig   ~jedi
 
-cp sith_kubeconfig   ~sith1 
-
-
-* copy quota_test_jedi.yaml to jedi1 user $HOME
-cp quota_test_jedi.yaml  ~jedi1
-
-* copy quota_test_sith.yaml to sith1 user $HOME
-cp quota_test_sith.yaml  ~sith1
+# droot@vm001:~$ sudo cp sith_kubeconfig   ~sith
 
 
-* set .bashrc to call the kubeconfig file on each home dir 
-echo "export KUBECONFIG=/home/jedi1/jedi_kubeconfig"  >> ~jedi1/.bashrc 
-echo "export KUBECONFIG=/home/sith1/sith_kubeconfig"  >> ~sith1/.bashrc 
+* copy quota_test_jedi.yaml to jedi user $HOME
+# droot@vm001:~$ sudo cp quota_test_jedi.yaml  ~jedi
+
+* copy quota_test_sith.yaml to sith user $HOME
+# droot@vm001:~$ sudo cp quota_test_sith.yaml  ~sith
+
 
 * update Access
 
-chown -R jedi1:jedi1  ~jedi1/* 
+# droot@vm001:~$ sudo chown -R jedi:jedi  ~jedi/* 
 
-chown -R sith1:sith1  ~sith1/*
+# droot@vm001:~$ sudo chown -R sith:sith  ~sith/*
 
-su - jedi1 
-kubectl apply -f quota_test_jedi.yaml
+# droot@vm001:~$ sudo su - jedi
+
+# jedi@vm001:~$ echo "export KUBECONFIG=/home/jedi/jedi_kubeconfig"  >> ~jedi/.bashrc 
+
+# jedi@vm001:~$ source .bashrc
+
+# jedi@vm001:~$ kubectl apply -f quota_test_jedi.yaml
 *check the pods / deployments 
 
-*on another Terminal 
-su - sith1 
-kubectl apply -f quota_test_sith.yaml
+# jedi@vm001:~$ kubectl describe resourcequotas jedi-quota
+
+# jedi@vm001:~$ kubectl get pods 
+
+# jedi@vm001:~$ exit
+
+
+# droot@vm001:~$ sudo su - sith
+
+# sith@vm001:~$ echo "export KUBECONFIG=/home/sith/sith_kubeconfig"  >> ~sith/.bashrc 
+
+# sith@vm001:~$  source .bashrc
+
+# sith@vm001:~$  kubectl apply -f quota_test_sith.yaml
 *check the pods / deployments 
+
+# sith@vm001:~$ kubectl describe resourcequotas sith-quota
+
+# sith@vm001:~$ kubectl  get pods
+
+# sith@vm001:~$ kubectl  get deployments
+
+# sith@vm001:~$ kubectl describe deployments pod-quota-demos
+
+# sith@vm001:~$ kubectl get events
+
+# sith@vm001:~$ exit
+
+
 ```
 
 END
