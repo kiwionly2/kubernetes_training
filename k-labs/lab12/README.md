@@ -122,37 +122,37 @@ To sign in, use a web browser to open the page https://microsoft.com/devicelogin
 
 * run create_user_namespace.sh to generate kubeconfig 
 
-# droot@vm001:~$ bash create_user_namespace.sh jedi
-# droot@vm001:~$ bash create_user_namespace.sh sith
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ bash create_user_namespace.sh jedi
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ bash create_user_namespace.sh sith
 
 
 * create hard limit quota
-# droot@vm001:~$ kubectl apply -f quota-pod_jedi.yaml --namespace=jedi 
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ kubectl apply -f quota-pod_jedi.yaml --namespace=jedi 
 
-# droot@vm001:~$ kubectl apply -f quota-pod_sith.yaml --namespace=sith
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ kubectl apply -f quota-pod_sith.yaml --namespace=sith
 
 
 
 * copy the config file to home dir of each 
-# droot@vm001:~$ sudo cp jedi_kubeconfig   ~jedi
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ sudo cp jedi_kubeconfig   ~jedi
 
-# droot@vm001:~$ sudo cp sith_kubeconfig   ~sith
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ sudo cp sith_kubeconfig   ~sith
 
 
 * copy quota_test_jedi.yaml to jedi user $HOME
-# droot@vm001:~$ sudo cp quota_test_jedi.yaml  ~jedi
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ sudo cp quota_test_jedi.yaml  ~jedi
 
 * copy quota_test_sith.yaml to sith user $HOME
-# droot@vm001:~$ sudo cp quota_test_sith.yaml  ~sith
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ sudo cp quota_test_sith.yaml  ~sith
 
 
 * update Access
 
-# droot@vm001:~$ sudo chown -R jedi:jedi  ~jedi/* 
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ sudo chown -R jedi:jedi  ~jedi/* 
 
-# droot@vm001:~$ sudo chown -R sith:sith  ~sith/*
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ sudo chown -R sith:sith  ~sith/*
 
-# droot@vm001:~$ sudo su - jedi
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ sudo su - jedi
 
 # jedi@vm001:~$ echo "export KUBECONFIG=/home/jedi/jedi_kubeconfig"  >> ~jedi/.bashrc 
 
@@ -168,7 +168,7 @@ To sign in, use a web browser to open the page https://microsoft.com/devicelogin
 # jedi@vm001:~$ exit
 
 
-# droot@vm001:~$ sudo su - sith
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ sudo su - sith
 
 # sith@vm001:~$ echo "export KUBECONFIG=/home/sith/sith_kubeconfig"  >> ~sith/.bashrc 
 
@@ -191,7 +191,7 @@ To sign in, use a web browser to open the page https://microsoft.com/devicelogin
 
 # droot@vm001:~/kubernetes_training/k-labs/lab12$ kubectl  apply -f limits2.yaml
 
-# droot@vm001:~$ sudo su - sith
+# droot@vm001:~/kubernetes_training/k-labs/lab12$ sudo su - sith
 
 # sith@vm001:~$ kubectl get pods
 
@@ -205,7 +205,7 @@ To sign in, use a web browser to open the page https://microsoft.com/devicelogin
 
 # sith@vm001:~$ kubectl  apply -f quota_test_sith.yaml
 
-# sith@vm001:~$ sith@vm001:~$ kubectl describe resourcequotas sith-quota
+# sith@vm001:~$ kubectl describe resourcequotas sith-quota
 
 # sith@vm001:~$ kubectl  get deployments 
 
