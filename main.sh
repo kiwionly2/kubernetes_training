@@ -24,7 +24,8 @@ if [ $# -ne 1 ]
     
     if [ -s $HOME/.loc ] 
     then
-    echo "DEBUG: Location already set to $(cat $HOME/.loc)" 
+    #echo "DEBUG: Location already set to $(cat $HOME/.loc)" 
+    echo
     else 
     setloc #This will set RG and Global Location 
     fi 
