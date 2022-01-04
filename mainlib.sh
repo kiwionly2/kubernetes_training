@@ -54,7 +54,12 @@ function deploy_vm001()
  if [ ! -z $AKSVNET ]
  then
  az deployment group create -g ${VMNAME}_rg -f ./${VMNAME}/${VMNAME}_template.json -p ./${VMNAME}/${VMNAME}_parameters.json   -p  adminPublicKey="$SSHPUB"  -p virtualNetworkId="$AKSVNET" > /dev/null 
- sleep 20
+ #sleep 20
+  if [ $? -ne 0 ]
+  then 
+  echo "FAILED"
+  exit 35
+  fi 
  echo "Deployment of vm001...PASS"
  else 
  echo "Aks VNET not found... vm001 deployment....FAIL"
@@ -94,6 +99,12 @@ function deploy_aks()
 
 echo "Deploying Azure Kubernetes Services....standby"
 az deployment group create -g ${VMNAME}_rg -f ./${VMNAME}/${VMNAME}_template.json -p ./${VMNAME}/${VMNAME}_parameters.json -p location="$LOC"  > /dev/null
+if [ $? -ne 0 ]
+then 
+echo "FAILED"
+exit 34
+fi 
+
 echo "Deployment of Azure Kubernetes Service ....PASS"
 echo 
 echo "Standby for Vital INFO...."
