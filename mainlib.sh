@@ -41,7 +41,7 @@ SUBID=$(az account list | grep id | awk '{print $2}'  | sed 's/"//g' | sed 's/,/
 function aksvnet () 
 {
 
-AKSVNET=$(az network vnet list -o tsv | grep MC  | awk '{print $9}') 
+AKSVNET=$(az network vnet list -o tsv | grep MC  | awk '{print $10}') 
 
 }
 
@@ -250,9 +250,14 @@ function setloc()
 if [ -s $HOME/.loc ]
  then
  LOC=$(cat $HOME/.loc)
- else
- locset
-fi
+ echo "Seems the location already set to $LOC"
+ echo -e "Are we Okay with this?[ ]\b\b\c"
+ read ASTA
+   if [ $ASTA == 'n' ]
+   then 
+   locset
+   fi 
+fi 
 }
 
 function non()
