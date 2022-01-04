@@ -110,6 +110,18 @@ AKS_SUBNET=$SUBNET
 echo "Updating packages"
 apt-get -y update
 
+apt-get install azure-cli -y 
+
+apt-get install -y apt-transport-https ca-certificates curl git
+
+curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+apt-get -y update
+
+apt-get install -y kubectl
+
 echo "Installing NFS kernel server"
 
 apt-get -y install nfs-kernel-server

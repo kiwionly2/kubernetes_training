@@ -81,26 +81,12 @@ kubectl describe pod kubia-manual
 
 # @Azure:~$  ssh droot@${VMIP}
 
-# droot@vm001:~$ sudo apt install azure-cli -y 
-
-# droot@vm001:~$ sudo apt-get update
-
-# droot@vm001:~$ sudo apt-get install -y apt-transport-https ca-certificates curl git
-
-# droot@vm001:~$ sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-
-# droot@vm001:~$ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-
-# droot@vm001:~$ sudo apt-get update
-
-# droot@vm001:~$ apt-get install -y kubectl
-
 # droot@vm001:~$ kubectl version
 
 # droot@vm001:~$ az login
 To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code XXXXXXX to authenticate.
 
- * open the link on the browser where you have Azure logged in to Authenticate vm001 to access Azure Access and insert the code 
+ * open the link on the browser where you have Azure logged in to Authenticate vm001 to access Azure and insert the code 
 
 # droot@vm001:~$  az account set --subscription $(az account list | grep id | awk '{print $2}'  | sed 's/"//g' | sed 's/,//g')
 
