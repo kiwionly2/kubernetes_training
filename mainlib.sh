@@ -93,7 +93,7 @@ function deploy_aks()
 {
 
 echo "Deploying Azure Kubernetes Services....standby"
-az deployment group create -g ${VMNAME}_rg -f ./${VMNAME}/${VMNAME}_template.json -p ./${VMNAME}/${VMNAME}_parameters.json  > /dev/null
+az deployment group create -g ${VMNAME}_rg -f ./${VMNAME}/${VMNAME}_template.json -p ./${VMNAME}/${VMNAME}_parameters.json -p location="$LOC"  > /dev/null
 echo "Deployment of Azure Kubernetes Service ....PASS"
 echo 
 echo "Standby for Vital INFO...."
@@ -105,6 +105,7 @@ echo "Azure Sub ID: $SUBID"
 echo "AKS Cluster Name: aks_lab"
 echo "AKS Resource Group Name: aks_rg"
 echo "AKS DNS for ingress: $DNS"
+echo "Deployed Location: $LOC"
 echo "Please keep this info for future reference"
 
 }
