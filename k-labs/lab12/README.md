@@ -80,8 +80,6 @@ kubectl describe pod kubia-manual
 
 # @Azure:~$  ssh droot@${VMIP}
 
-# droot@vm001:~$ kubectl version
-
 # droot@vm001:~$ az login
 To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code XXXXXXX to authenticate.
 
@@ -90,6 +88,8 @@ To sign in, use a web browser to open the page https://microsoft.com/devicelogin
 # droot@vm001:~$  az account set --subscription $(az account list | grep id | awk '{print $2}'  | sed 's/"//g' | sed 's/,//g')
 
 # droot@vm001:~$  az aks get-credentials --resource-group aks_rg --name aks_lab
+
+# droot@vm001:~$ kubectl version
 
 # droot@vm001:~$ kubectl cluster-info 
 * You should receive Cluster Info Output
