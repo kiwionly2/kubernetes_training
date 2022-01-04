@@ -13,6 +13,7 @@ echo eastasia > $HOME/.loc
 
 #Overwrite location because southeastasia(singapore have no more resources)
 LOC=eastasia
+export LOC
 
 ##main program
 if [ $# -ne 1 ]
@@ -20,7 +21,16 @@ if [ $# -ne 1 ]
   my_usage #This will print USAGE
   exit
   else
-  setloc #This will set RG Location 
+    
+    if [ -s $HOME/.loc ] 
+    then
+    echo "Location already set to $(cat $HOME/.loc)" 
+    echo "If you wish to change the location, cancel this run and remove $HOME/.loc file and rerun [ bash main.sh <arg> ]" 
+    else 
+    setloc #This will set RG and Global Location 
+    fi 
+
+
   addssh #This will create local Private/Public Key for VM
   subid  #This will catch your Azure Subscription ID
   case ${VMNAME} in
