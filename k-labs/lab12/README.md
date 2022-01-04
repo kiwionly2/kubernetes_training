@@ -73,7 +73,6 @@ kubectl describe pod kubia-manual
 ```
 # Lab12B
 # Step 1
- * Configure vm001 VM to access Kubernetes Cluster ( install az cli & kubectl )
  * Perform this on Azure Cloud shell ( private key to access vm001 only available on Azure Cloud Shell )
 ```sh 
 
