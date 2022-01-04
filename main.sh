@@ -24,8 +24,7 @@ if [ $# -ne 1 ]
     
     if [ -s $HOME/.loc ] 
     then
-    echo "Location already set to $(cat $HOME/.loc)" 
-    echo "If you wish to change the location, cancel this run and remove $HOME/.loc file and rerun [ bash main.sh <arg> ]" 
+    echo "DEBUG: Location already set to $(cat $HOME/.loc)" 
     else 
     setloc #This will set RG and Global Location 
     fi 
