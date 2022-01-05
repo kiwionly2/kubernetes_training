@@ -126,6 +126,7 @@ kubectl get svc -n app1
 # Step 3 
 * Edit the app1-ingress.yaml and add your dns entry 
 * Change this entry : - host: app1.cognitoz.org  to - host: app1.<azure_dns>
+* Uncomment nginx to use azure http routing
 
 # Step 4 
 ```sh 
@@ -156,6 +157,7 @@ kubectl get svc -n app2
 # Step 6 
 * Edit the app1-ingress.yaml and add your dns entry 
 * Change this entry : - host: app2.cognitoz.org  to - host: app2.<azure_dns>
+* Uncomment nginx to use azure http routing
 
 # Step 7 
 ```sh 
@@ -193,6 +195,7 @@ kubectl apply -f  kubia-blue-svc.yaml
 kubectl apply -f  kubia-blue-rc.yaml
 
 * Change this entry : - host: rb.cognitoz.org  to - host: rb.<azure_dns>
+* Uncomment nginx to use azure http routing
 kubectl apply -f  kubia-rb-ingress.yaml
 
 ```
