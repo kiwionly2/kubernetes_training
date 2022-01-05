@@ -155,7 +155,7 @@ kubectl get pod -n app2
 kubectl get svc -n app2
 ```
 # Step 6 
-* Edit the app1-ingress.yaml and add your dns entry 
+* Edit the app2-ingress.yaml and add your dns entry 
 * Change this entry : - host: app2.cognitoz.org  to - host: app2.<azure_dns>
 * Uncomment azure http routing and comment nginx
 
@@ -194,8 +194,10 @@ kubectl apply -f  kubia-blue-svc.yaml
 
 kubectl apply -f  kubia-blue-rc.yaml
 
+* Edit the kubia-rb-ingress.yaml
 * Change this entry : - host: rb.cognitoz.org  to - host: rb.<azure_dns>
 * Uncomment azure http routing and comment nginx
+
 kubectl apply -f  kubia-rb-ingress.yaml
 
 ```
