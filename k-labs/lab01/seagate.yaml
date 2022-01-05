@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seagateappx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: seagateappx
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: seagateappx
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: seagateappx
+        image: stv707/seagateappx:v1
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+---  
+apiVersion: v1
+kind: Service
+metadata:
+  name: seagateappx
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: seagateappx
