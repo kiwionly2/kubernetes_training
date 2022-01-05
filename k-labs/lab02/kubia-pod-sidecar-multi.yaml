@@ -7,13 +7,13 @@ spec:
   - image: busybox
     command: ["/bin/sh"]
     args: ["-c", "while true; do echo echo $(date -u) 'Hi I am from Sidecar container' >> /var/log/index.html; sleep 5;done"]
-    name: sidecar-container
+    name: anything1
     resources: {}
     volumeMounts:
     - name: var-logs
       mountPath: /var/log
   - image: nginx
-    name: main-container
+    name: anything2
     resources: {}
     ports:
       - containerPort: 80

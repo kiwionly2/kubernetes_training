@@ -28,7 +28,7 @@ Create and Verify Multi Container Pod ( init container )
 kubectl create -f kubia-pod-init-multi.yaml
 
 kubectl get pod kubia-pod-init -w
-**As per kubia-pod-init-multi.yaml manifest, init container runs sleep command for 90 second, after 90 Second, the main container will start
+**As per kubia-pod-init-multi.yaml manifest, init container runs sleep command for XX second, after XX Second, the main container will start
 ```
 
 # Step 3 
