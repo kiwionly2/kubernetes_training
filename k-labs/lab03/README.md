@@ -192,6 +192,7 @@ kubectl apply -f  kubia-blue-svc.yaml
 
 kubectl apply -f  kubia-blue-rc.yaml
 
+* Change this entry : - host: rb.cognitoz.org  to - host: rb.<azure_dns>
 kubectl apply -f  kubia-rb-ingress.yaml
 
 ```
