@@ -65,6 +65,12 @@ kill %1
 # Step 
 Communication between a Pod and Kubernetes REST API 
 
+* the default service account(sa) is forbidden to access kubernetes api, we will grant cluster-admin role to default sa
+
+```sh 
+kubectl create clusterrolebinding service-reader --clusterrole=cluster-admin --serviceaccount=default:default
+```
+
 ```sh
 
 kubectl create -f curl.yaml
