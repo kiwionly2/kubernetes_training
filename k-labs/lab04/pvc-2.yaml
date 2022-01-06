@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfspv-15g
+  name: nfspvc-15g
 spec:
   resources:
     requests:

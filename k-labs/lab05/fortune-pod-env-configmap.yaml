@@ -11,6 +11,11 @@ spec:
         configMapKeyRef:
           name: fortune-config
           key: sleep-interval
+    - name: A
+      valueFrom:
+        configMapKeyRef:
+          name: fortune-config
+          key: A
     name: html-generator
     volumeMounts:
     - name: html
