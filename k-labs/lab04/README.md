@@ -132,6 +132,7 @@ kubectl get pods | grep alpine
 kubectl describe pod alpine-xxxx 
 *Look for Mounts section and Volume Sections 
 
+* This step must be performed on Azure Cloud Shell 
 ssh droot@vm001_public_ip_address 
 
 droot@vm001:~$ ls -l /export/
@@ -157,6 +158,7 @@ kubectl get pods | grep alpine
 # Step 5
  * Verify data still retained on vm001 NFS server  
 ```sh 
+* This step must be performed on Azure Cloud Shell 
 ssh droot@vm001_public_ip_address 
 
 droot@vm001:~$ ls -l /export/
