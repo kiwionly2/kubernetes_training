@@ -37,7 +37,7 @@ kubectl describe rc kubiarc
 ```sh 
 kubectl get pods -L app
 
-kubectl label pod kubiarc-xxxx app=foo --overwrite
+kubectl label pod kubiarc-AAAA app=foo --overwrite
 
 kubectl get pods -L app
 
@@ -45,6 +45,14 @@ kubectl edit rc kubiarc
 *change image to stv707/kubia:latest
 
 kubectl describe pod kubiarc-xxx
+
+kubectl delete pod kubiarc-xxx
+
+kubectl describe pod kubiarc-xxx
+**Image should be updated ( kubia:latest )
+
+kubectl describe pod kubiarc-AAAA
+** Image should not be updated ( kubia:v14)
 ```
 
 # Lab07D 

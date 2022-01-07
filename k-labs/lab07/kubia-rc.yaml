@@ -3,7 +3,7 @@ kind: ReplicationController
 metadata:
   name: kubiarc
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     app: kubiarc
   template:
@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
       - name: kubiarc
-        image: stv707/kubia:v14
+        image: stv707/kubia:latest
         ports:
         - containerPort: 8080
