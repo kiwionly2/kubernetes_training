@@ -168,7 +168,7 @@ mysql> exit;
 
 kubectl get pv -l app=mysql
 kubectl get pvc -l app=mysql
-
+** -l will not work because no label set for pv / pvc 
 
 ```
 # Please clean up 
