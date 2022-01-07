@@ -90,7 +90,7 @@ kubectl delete -f kubia-service-public.yaml
 # Lab10B
 - Running MySQL Replication with Stateful Sets (Single Master (rw) with Slave(ro) )
 - refer: https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application/
-- Make sure to remove any old pod/rc/rs/ds/deployment. MySQL use a lot of CPU. 
+- Make sure to remove any old pod/rc/rs/ds/deployment. MySQL uses a lot of CPU. 
 
 # Steps
 ```sh
@@ -194,6 +194,7 @@ kubectl delete cm -l app=mysql
 
 # Lab10C - Operator
 * Install MySQL Operator, Deploy Mysql HA and verify a MySql 3 Node Cluster Deployment 
+* Make sure to remove any old pod/rc/rs/ds/deployment. MySQL uses a lot of CPU.
 
 ```sh 
 kubectl apply -f mysql-operator/deploy-crds.yaml
