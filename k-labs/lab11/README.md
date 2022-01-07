@@ -22,6 +22,7 @@ kubectl create -f multi-completion-parallel-batch-job.yaml
 kubectl get po
 
 kubectl scale job multi-completion-batch-job --replicas 3
+** replica feature been removed kube 1.20.x 
 ```
 
 # Lab11B
