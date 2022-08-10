@@ -8,13 +8,13 @@ spec:
         image: alpine
         volumeMounts:
           - name: my-data
-            mountPath: /var/nfs
+            mountPath: /var/mydatabin
         command: ["/bin/sh"]
-        args: ["-c", "while true; do date >> /var/nfs/azure-app.txt; sleep 20; echo azure-app>> /var/nfs/azure-app.txt; done"]
+        args: ["-c", "while true; do date >> /var/mydatabin/azure-app.txt; sleep 20; echo azure-app>> /var/mydatabin/azure-app.txt; done"]
         ports:
         - containerPort: 7171
           protocol: TCP
       volumes:
         - name: my-data
           persistentVolumeClaim:
-            claimName: azure-disk-11g
+            claimName: azure-disk-2g
