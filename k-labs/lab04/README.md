@@ -86,7 +86,7 @@ kubectl exec -it mongo-<new_pod2> -- mongo
 > db.bar.find()
 > exit
 
-kubectl describe rc mongo
+kubectl describe ds mongo
 ```
 
 Cleanup 
