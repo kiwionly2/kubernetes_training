@@ -92,11 +92,11 @@ kubectl describe rc mongo
 Cleanup 
 ```sh
 kubectl get pods
-kubectl get rc
-kubectl delete rc mongo
+kubectl get ds
+kubectl delete ds mongo
 
 kubectl get pods
-kubectl get rc
+kubectl get ds
 ```
 
 # Lab04C
