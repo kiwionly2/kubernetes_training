@@ -218,16 +218,16 @@ Cloud based Kubernetes provides this<br>
  kubectl get pvc
  
  kubectl exec -it azure-app -- sh
- # df -h /var/nfs
- # ls -l /var/nfs
- # cat /var/nfs/azure-app.txt
+ # df -h /var/mydatabin
+ # ls -l /var/mydatabin
+ # cat /var/mydatabin/azure-app.txt
  # exit 
 
  kubectl delete -f azure-pod-pvc.yaml
  kubectl get pvc
  kubectl get pod | grep azure-app 
 
- kubectl delete -f azure-pod-pvc-2.yaml
+ kubectl create -f azure-pod-pvc-2.yaml
  
  kubectl get pod | grep az
 
