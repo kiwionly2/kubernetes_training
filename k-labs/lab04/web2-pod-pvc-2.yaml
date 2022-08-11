@@ -25,4 +25,4 @@ spec:
       volumes:
         - name: my-data
           persistentVolumeClaim:
-            claimName: nfspv-15g
+            claimName: nfspvc-15g
