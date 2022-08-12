@@ -16,26 +16,6 @@ kubectl exec -it requests-pod -- sh
 kubectl get pod -o wide requests-pod
  * identify the node the pod is running on
 
-kubectl describe nodes <request_pod_running_node>
-
-kubectl run requests-pod-2 --image=busybox --restart Never --requests='cpu=800m,memory=20Mi' -- dd if=/dev/zero of=/dev/null 
-
-kubectl run requests-pod-3 --image=busybox --restart Never --requests='cpu=1,memory=20Mi' -- dd if=/dev/zero of=/dev/null 
-
-kubectl run requests-pod-4 --image=busybox --restart Never --requests='cpu=1,memory=20Mi' -- dd if=/dev/zero of=/dev/null 
-
-kubectl run requests-pod-5 --image=busybox --restart Never --requests='cpu=1,memory=20Mi' -- dd if=/dev/zero of=/dev/null 
-
-
-
-kubectl describe po requests-pod-5
-
-kubectl get pods 
-kubectl delete po requests-pod-4 --force
-kubectl get pods 
-
-kubectl delete pod requests-pod-2 requests-pod-3 requests-pod-5 requests-pod  --force 
-
 **Explore limits
 kubectl create -f limited-pod.yaml
 
