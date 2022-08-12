@@ -48,7 +48,7 @@ kubectl describe limitranges example -n dev
 kubectl apply -f kubia-manual.yaml
 kubectl get pod
 
-kubectl describe pod kubia-manual
+kubectl describe pod kubia-manual -n dev
 
 ```
 # Lab12B
